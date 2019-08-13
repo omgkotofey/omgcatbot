@@ -3,6 +3,7 @@
 
 namespace app\core;
 
+use app\domain\CampaignService;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Telegram;
 use Longman\TelegramBot\TelegramLog;
@@ -27,6 +28,10 @@ class Bot
 	 * @var $telegramApiClient Telegram
 	 */
 	private $telegramApiClient;
+	/**
+	 * @var $campaignService CampaignService
+	 */
+	public $campaignService;
 	
 	/**
 	 * Bot constructor.
@@ -36,6 +41,7 @@ class Bot
 	private function __construct(array $config)
 	{
 		$this->config = new Config($config);
+		$this->campaignService = new CampaignService();
 		$this->init();
 	}
 	
@@ -61,6 +67,18 @@ class Bot
 	{
 		$this->telegramApiClient->enableLimiter();
 		$this->telegramApiClient->handle();
+//		$updates = $this->telegramApiClient->handle();
+//		if ($updates->isOk()) {
+//			$update_count = count($updates->getResult());
+//			echo date('Y-m-d H:i:s', time()) . ' - Processed ' . $update_count . ' updates';
+//		} else {
+//			echo date('Y-m-d H:i:s', time()) . ' - Failed to fetch updates' . PHP_EOL;
+//			echo $updates->printError();
+//		}
+//
+//		echo '<pre>';
+//			print_r($updates->getResult());
+//		echo '</pre>';
 	}
 	
 	public function setWebHook()
