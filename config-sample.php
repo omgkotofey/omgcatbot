@@ -20,6 +20,10 @@ return [
 	 */
 	'webhook_url' => 'https://example.com/',
 	/**
+	 * Twitter profile which user need to follow to start campaign
+	 */
+	'twitter_profile_to_follow_url' => 'https://twitter.com/example_profile',
+	/**
 	 * MySQL database credentials. Always necessary.
 	 */
 	'db' => [
