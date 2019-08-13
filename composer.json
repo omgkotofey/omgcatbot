@@ -17,6 +17,7 @@
   },
   "require": {
     "php":">=7.3.0",
+    "ext-pdo": "*",
     "longman/telegram-bot": "*"
   }
 }
