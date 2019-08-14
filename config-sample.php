@@ -22,7 +22,7 @@ return [
 	/**
 	 * Link which user need to follow to start campaign
 	 */
-	'link_to_follow' => '@example_profile',
+	'link_to_follow' => 'https://t.me/example_chanel',
 	/**
 	 * MySQL database credentials. Always necessary.
 	 */
