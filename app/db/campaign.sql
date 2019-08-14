@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `campaign` (
-  `id` bigint COMMENT 'Unique identifier for this campaign',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for this campaign',
   `user_id` bigint NOT NULL COMMENT 'Unique identifier for campaign user or bot',
   `is_follower` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'User already followed us on Twitter',
   `twitter_link` TEXT DEFAULT NULL COMMENT 'Received from user Twitter link',
