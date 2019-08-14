@@ -4,6 +4,7 @@
 namespace app\core;
 
 
+use app\domain\Campaign;
 use Longman\TelegramBot\DB;
 use Longman\TelegramBot\Exception\TelegramException;
 use PDO;
@@ -59,6 +60,20 @@ class CatBotDB extends DB
 		}
 	}
 	
+	/**
+	 * Insert new user's campaign to Database
+	 *
+	 * @param $user_id
+	 * @param int $is_follower
+	 * @param null $twitter_link
+	 * @param int $has_retweet
+	 * @param null $ethereum_address
+	 * @param int $has_tokens_earned
+	 * @param int $tokens_earned_count
+	 *
+	 * @return bool
+	 * @throws TelegramException
+	 */
 	public static function insertCampaign(
 		$user_id,
 		$is_follower = 0,
@@ -93,6 +108,49 @@ class CatBotDB extends DB
 			$sth->bindValue(':tokens_earned_count', $tokens_earned_count);
 			$sth->bindValue(':created_at', self::getTimestamp());
 			$sth->bindValue(':updated_at', self::getTimestamp());
+			
+			return $sth->execute();
+		} catch (PDOException $e) {
+			throw new TelegramException($e->getMessage());
+		}
+	}
+	
+	/**
+	 * Updates user's campaign in Database
+	 *
+	 * @param Campaign $campaign
+	 *
+	 * @return bool
+	 * @throws TelegramException
+	 */
+	public static function updateCampaign(Campaign $campaign) {
+		
+		if (!self::isDbConnected()) {
+			return false;
+		}
+		
+		try {
+			$sth = self::$pdo->prepare('
+                UPDATE `campaign` SET
+					`is_follower` = :is_follower,
+					`twitter_link` = :twitter_link,
+					`has_retweet` = :has_retweet,
+					`ethereum_address` = :ethereum_address,
+					`has_tokens_earned` = :has_tokens_earned,
+					`tokens_earned_count` = :tokens_earned_count,
+		            `updated_at` = :created_at,
+                    `finished_at` = :finished_at
+				WHERE `id` = :id;');
+			
+			$sth->bindValue(':is_follower', $campaign->getIsFollower());
+			$sth->bindValue(':twitter_link', $campaign->getTwitterLink());
+			$sth->bindValue(':has_retweet', $campaign->getHasRetweet());
+			$sth->bindValue(':ethereum_address', $campaign->getEthereumAddress());
+			$sth->bindValue(':has_tokens_earned', $campaign->getHasTokensEarned());
+			$sth->bindValue(':tokens_earned_count', $campaign->getTokensEarnedCount());
+			$sth->bindValue(':updated_at', self::getTimestamp());
+			$sth->bindValue(':finished_at', $campaign->getFinishedAt());
+			$sth->bindValue(':id', $campaign->getId());
 			
 			return $sth->execute();
 		} catch (PDOException $e) {
