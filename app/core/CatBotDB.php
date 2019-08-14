@@ -138,7 +138,7 @@ class CatBotDB extends DB
 					`ethereum_address` = :ethereum_address,
 					`has_tokens_earned` = :has_tokens_earned,
 					`tokens_earned_count` = :tokens_earned_count,
-		            `updated_at` = :created_at,
+		            `updated_at` = :updated_at,
                     `finished_at` = :finished_at
 				WHERE `id` = :id;');
 			
