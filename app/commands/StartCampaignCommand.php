@@ -5,7 +5,6 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 
 use app\core\CatBot;
-use app\utils\BotDevelopmentHelper;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
@@ -66,14 +65,14 @@ class StartCampaignCommand extends UserCommand
 			$keyboard->setResizeKeyboard(true);
 			$keyboard->setOneTimeKeyboard(true);
 			
-			$text .= 'Follow our chanel first, then retweet last tweet from our Twitter profile and paste link to tweet below:';
+			$text .= 'Follow our chanel first, then retweet last tweet from our Twitter profile and paste link to your retweet tweet below:';
 		}
 		else{
-			$text = 'Oh shit, i think i have broken database.'
+			$text = 'Oh shit, i think i have broken database. 💀'
 						. PHP_EOL .
-						'Sorry, but i can not make you happy with tokens right now.'
+						'Sorry, but i can not make you happy with 🐱 tokens right now. 😿'
 						. PHP_EOL .
-						'Try again later.';
+						'Try again later. ⌛';
 		}
 		
 		$data = [
