@@ -28,7 +28,7 @@ class CatBotDB extends DB
 		
 		try {
 			$sql = '
-                SELECT `id`
+                SELECT *
                 FROM `campaign`
             ';
 			
