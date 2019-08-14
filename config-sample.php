@@ -20,6 +20,18 @@ return [
 	 */
 	'webhook_url' => 'https://example.com/',
 	/**
+	 * Link which user need to follow to start campaign
+	 */
+	'link_to_follow' => 'https://t.me/example_chanel',
+	/**
+	 * Telegram group id which user need to join to continue campaign
+	 */
+	'telegram_group_id' => '-111111111',
+	/**
+	 * Link to twitter profile to get retweet
+	 */
+	'twitter_profile_to_retweet' => 'https://twitter.com/example_profile',
+	/**
 	 * MySQL database credentials. Always necessary.
 	 */
 	'db' => [

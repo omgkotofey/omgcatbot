@@ -3,8 +3,8 @@
 
 namespace app\core;
 
+use app\domain\CampaignService;
 use Longman\TelegramBot\Exception\TelegramException;
-use Longman\TelegramBot\Telegram;
 use Longman\TelegramBot\TelegramLog;
 use \Exception;
 
@@ -13,20 +13,24 @@ use \Exception;
  *
  * @package app\core
  */
-class Bot
+class CatBot
 {
 	/**
 	 * @var
 	 */
 	private static $_app;
 	/**
-	 * @var Config
+	 * @var CatBotConfig
 	 */
 	public $config;
 	/**
-	 * @var $telegramApiClient Telegram
+	 * @var $telegramApiClient CatBotTelegram
 	 */
 	private $telegramApiClient;
+	/**
+	 * @var $campaignService CampaignService
+	 */
+	public $campaignService;
 	
 	/**
 	 * Bot constructor.
@@ -35,14 +39,15 @@ class Bot
 	 */
 	private function __construct(array $config)
 	{
-		$this->config = new Config($config);
+		$this->config = new CatBotConfig($config);
 		$this->init();
 	}
 	
 	private function init()
 	{
 		try {
-			$this->telegramApiClient = new Telegram($this->config->get('bot_token'), $this->config->get('bot_username'));
+			$this->telegramApiClient = new CatBotTelegram($this->config->get('bot_token'), $this->config->get('bot_username'));
+			$this->campaignService = new CampaignService();
 			$this->telegramApiClient->addCommandsPaths($this->config->get('commands_paths'));
 			$this->telegramApiClient->enableAdmins($this->config->get('bot_admins'));
 			$this->telegramApiClient->enableMySql($this->config->get('db'));
@@ -90,7 +95,7 @@ class Bot
 	/**
 	 * @param $config
 	 *
-	 * @return Bot
+	 * @return CatBot
 	 */
 	public static function create($config)
 	{
@@ -98,7 +103,7 @@ class Bot
 	}
 	
 	/**
-	 * @return Bot
+	 * @return CatBot
 	 */
 	public static function app()
 	{

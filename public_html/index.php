@@ -24,5 +24,5 @@ $config = array_merge(
 	$localConfig
 );
 
-$bot = \app\core\Bot::create($config);
+$bot = \app\core\CatBot::create($config);
 $bot->run();

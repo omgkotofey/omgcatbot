@@ -47,9 +47,9 @@ class StartCommand extends UserCommand
 		$keyboard->setResizeKeyboard(true);
 		$keyboard->setOneTimeKeyboard(true);
 		
-		$text    =  'Hello, leather bastard! I am the CatBot. 🐱'
+		$text    =  'Hello, leather bastard! I am the CatBot. 🐈'
 					. PHP_EOL .
-					'If you completely fulfill all my conditions, you will receive 1 MEOW and 10 PURR for any actions that do not annoy me...'
+					'If you completely fulfill all my conditions, you will receive 10 🐱 tokens for any actions that do not annoy me...'
 					. PHP_EOL .
 					'Press "/startcampaign" button to start the CatBot campaign 🚀:';
 		$data = [

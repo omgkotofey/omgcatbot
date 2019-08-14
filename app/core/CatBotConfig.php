@@ -2,7 +2,7 @@
 
 namespace app\core;
 
-class Config
+class CatBotConfig
 {
 	/**
 	 * @var $config array
