@@ -12,23 +12,6 @@ use PDOException;
 class CatBotDB extends DB
 {
 	/**
-	 * Define all the tables with the proper prefix
-	 */
-	protected static function defineTables()
-	{
-		parent::defineTables();
-		$tables = [
-			'campaign',
-		];
-		foreach ($tables as $table) {
-			$table_name = 'TB_' . strtoupper($table);
-			if (!defined($table_name)) {
-				define($table_name, self::$table_prefix . $table);
-			}
-		}
-	}
-	
-	/**
 	 * Fetch campaign(s) from DB
 	 *
 	 * @param string $user_id    Check for unique campaign id
