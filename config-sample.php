@@ -24,6 +24,10 @@ return [
 	 */
 	'link_to_follow' => 'https://t.me/example_chanel',
 	/**
+	 * Link to twitter profile to get retweet
+	 */
+	'twitter_profile_to_retweet' => 'https://twitter.com/example_profile',
+	/**
 	 * MySQL database credentials. Always necessary.
 	 */
 	'db' => [
