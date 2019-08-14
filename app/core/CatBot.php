@@ -20,7 +20,7 @@ class CatBot
 	 */
 	private static $_app;
 	/**
-	 * @var Config
+	 * @var CatBotConfig
 	 */
 	public $config;
 	/**
@@ -39,7 +39,7 @@ class CatBot
 	 */
 	private function __construct(array $config)
 	{
-		$this->config = new Config($config);
+		$this->config = new CatBotConfig($config);
 		$this->init();
 	}
 	
