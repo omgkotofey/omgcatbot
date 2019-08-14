@@ -58,7 +58,7 @@ class StartCampaignCommand extends UserCommand
 		
 		if ($campaignStarted){
 			$keyboard = new InlineKeyboard([
-				['text' => 'Follow our Twitter', 'url' => CatBot::app()->config->get('twitter_profile_to_follow_url')]
+				['text' => 'Follow our Twitter', 'url' => CatBot::app()->config->get('link_to_follow')]
 			]);
 			$keyboard->setResizeKeyboard(true);
 			$keyboard->setOneTimeKeyboard(true);
