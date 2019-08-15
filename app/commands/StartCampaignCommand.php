@@ -59,13 +59,13 @@ class StartCampaignCommand extends UserCommand
 		
 		if ($campaignStarted){
 			$keyboard = new InlineKeyboard([
-				['text' => 'Follow our chanel', 'url' => CatBot::app()->config->get('link_to_follow')],
-				['text' => 'Retweet last tweet', 'url' => CatBot::app()->config->get('twitter_profile_to_retweet')]
+				['text' => 'Follow our chanel', 'url' => CatBot::app()->config->get('telegram_group_to_follow_link_url')],
+				['text' => 'Retweet last tweet', 'url' => CatBot::app()->config->get('twitter_profile_url')]
 			]);
 			$keyboard->setResizeKeyboard(true);
 			$keyboard->setOneTimeKeyboard(true);
 			
-			$text .= 'Follow our chanel first, then retweet last tweet from our Twitter profile and paste link to your retweet tweet below:';
+			$text .= 'First of all - join our chanel and group, then retweet last tweet from our Twitter profile and paste link to your retweet tweet below:';
 		}
 		else{
 			$text = 'Oh shit, i think i have broken database. 💀'

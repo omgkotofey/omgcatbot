@@ -31,7 +31,7 @@ class GenericmessageCommand extends SystemCommand
 	
 	
 	private function checkUserIsFollower($user_id){
-		$isFollowerRequest = Request::getChatMember(['chat_id' => CatBot::app()->config->get('telegram_group_id'), 'user_id' => $user_id]);
+		$isFollowerRequest = Request::getChatMember(['chat_id' => CatBot::app()->config->get('telegram_group_to_follow_id'), 'user_id' => $user_id]);
 		if ($isFollowerRequest->isOk()){
 			/**
 			 * @var $isFollowerResult ChatMember
@@ -55,7 +55,7 @@ class GenericmessageCommand extends SystemCommand
 		$chat_id = $message->getChat()->getId();
 		$user_id = $message->getFrom()->getId();
 		
-		if ($chat_id != CatBot::app()->config->get('telegram_group_id')){
+		if ($chat_id != CatBot::app()->config->get('telegram_group_to_follow_id')){
 			
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
 			$is_follower = $this->checkUserIsFollower($user_id);

@@ -13,24 +13,13 @@ return [
 	 * Array of users which will have admin access to bot's private chat
 	 */
 	'bot_admins' =>[
-		000000000
+		000000000,
+		123456789
 	],
 	/**
 	 * Webhook url. Not needed if you will use any of getUpdates() method
 	 */
 	'webhook_url' => 'https://example.com/',
-	/**
-	 * Link which user need to follow to start campaign
-	 */
-	'link_to_follow' => 'https://t.me/example_chanel',
-	/**
-	 * Telegram group id which user need to join to continue campaign
-	 */
-	'telegram_group_id' => '-111111111',
-	/**
-	 * Link to twitter profile to get retweet
-	 */
-	'twitter_profile_to_retweet' => 'https://twitter.com/example_profile',
 	/**
 	 * MySQL database credentials. Always necessary.
 	 */
@@ -44,5 +33,26 @@ return [
 	/**
 	 * Enable or disable logs (/app/logs dir needs to be at least 755 accesses)
 	 */
-	'enable_logs' => false
+	'enable_logs' => false,
+	/**
+	 * All campaign stuff
+	 *
+	 * All positions in this section is optional, you can add your own if your campaign path is another
+	 * The only thing you need - to change \app\commands\GenericmessageCommand class
+	 * This campaign stuff and GenericmessageCommand class is only example ones. Your campaign can be different.
+	 *
+	 *
+	 * Telegram group which user need to join after campaign start
+	 */
+	'telegram_group_to_follow_id' => '-111111111',
+	'telegram_group_to_follow_link_url' => 'https://t.me/joinchat/123ABC123ABC',
+	/**
+	 * Telegram chanel which user need to join after campaign start
+	 */
+	'telegram_chanel_to_follow_id' => '2222222222',
+	'telegram_chanel_to_follow_link_url' => 'https://t.me/example_chanel',
+	/**
+	 * Link to twitter profile which lase tweet user must to retweet
+	 */
+	'twitter_profile_url' => 'https://twitter.com/example_profile',
 ];
