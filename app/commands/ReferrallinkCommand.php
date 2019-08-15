@@ -12,20 +12,20 @@ use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
 
-class BalanceCommand extends UserCommand
+class ReferrallinkCommand extends UserCommand
 {
 	/**
 	 * @var string
 	 */
-	protected $name = 'balance';
+	protected $name = 'referrallink';
 	/**
 	 * @var string
 	 */
-	protected $description = 'Show your balance in tokens';
+	protected $description = 'Show your referral link';
 	/**
 	 * @var string
 	 */
-	protected $usage = '/balance - Show your balance in tokens';
+	protected $usage = '/referrallink - Show your referral link';
 	/**
 	 * @var bool
 	 */
@@ -54,16 +54,17 @@ class BalanceCommand extends UserCommand
 			
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
 			
-			if (!empty($user_campaign->getEthereumAddress())){
-				$user_tokens_count = $user_campaign->getTokensEarnedCount();
-				$text = "0 Partners 👥";
+			if (!empty($user_campaign->getRefLink())){
+				$text = "Earn 10 🐱 Token for every partner.";
+				$text .= PHP_EOL . PHP_EOL;
+				$text .= "Share this link with your friends:";
 				$text .= PHP_EOL;
-				$text .= "$user_tokens_count 🐱 tokens earned";
+				$text .= $user_campaign->getRefLink();
 			} else {
-				$text = "You can not check your token balance yet! Fulfill all all my previous conditions to make it real.";
+				$text = "I can not show your referral link yet! Fulfill all all my previous conditions to make it real.";
 			}
 		}
-
+		
 		$keyboard = Keyboard::remove();
 		
 		$data = [
