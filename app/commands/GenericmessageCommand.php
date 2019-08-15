@@ -30,7 +30,8 @@ class GenericmessageCommand extends SystemCommand
 	protected $description = 'Handle generic message';
 	
 	
-	private function checkUserIsFollower($user_id){
+	private function checkUserIsFollower($user_id)
+	{
 		$isFollowerRequest = Request::getChatMember(['chat_id' => CatBot::app()->config->get('telegram_group_to_follow_id'), 'user_id' => $user_id]);
 		if ($isFollowerRequest->isOk()){
 			/**
@@ -95,6 +96,7 @@ class GenericmessageCommand extends SystemCommand
 						$user_campaign->setEthereumAddress($any_wallet);
 						$user_campaign->setHasTokensEarned(1);
 						$user_campaign->setTokensEarnedCount(10);
+						$user_campaign->setRefLink(CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username')));
 						
 						if (CatBot::app()->campaignService->updateCampaign($user_campaign)){
 							$text .= 'Thanks! Your details have been submitted successfully.';
@@ -106,7 +108,7 @@ class GenericmessageCommand extends SystemCommand
 							$text .=  PHP_EOL;
 							$text .= 'Retweet - ' . $user_campaign->getTwitterLink();
 							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Your unique referral link is: ' . CampaignHelper::getUserReferralLink($user_id, CatBot::app()->config->get('bot_username'));
+							$text .= 'Your unique referral link is: ' . $user_campaign->getRefLink();
 							$text .=  PHP_EOL . PHP_EOL;
 							$text .= 'Share and forward the referral link to your network and get 10 🐱 tokens for each friend invited!';
 							$text .= 'They will have to join our chat and stay until the end of the Bounty campaign you to receive the reward!';
