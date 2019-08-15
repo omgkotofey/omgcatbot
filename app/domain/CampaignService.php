@@ -3,12 +3,17 @@
 
 namespace app\domain;
 
-
-use app\core\CatBotDB;
 use \Exception;
 
 class CampaignService
 {
+	protected $db;
+	
+	public function __construct(CampaignDBInterface $db)
+	{
+		$this->db = $db;
+	}
+	
 	/**
 	 * Build new Campaign entity form assoc array
 	 *
@@ -30,8 +35,21 @@ class CampaignService
 	 */
 	public function createNewUserCampaign($user_id)
 	{
+		$campaignData = [
+			'user_id' => $user_id,
+			'is_follower' => 0,
+			'twitter_link' => null,
+			'has_retweet' => 0,
+			'ethereum_address' => null,
+			'ref_link' => null,
+			'has_tokens_earned' => 0,
+			'tokens_earned_count' => 0,
+		];
+		
+		$newUserCampaign = $this->buildCampaign($campaignData);
+		
 		if (!$this->isUserHaveAlreadyStartedCampaign($user_id)){
-			return CatBotDB::insertCampaign($user_id);
+			return $this->db::insertCampaign($newUserCampaign);
 		}
 		return true;
 	}
@@ -46,7 +64,7 @@ class CampaignService
 	 */
 	public function getUserCampaigns($user_id)
 	{
-		$campaigns_as_assoc = CatBotDB::selectCampaign($user_id);
+		$campaigns_as_assoc = $this->db::selectCampaign($user_id);
 		$campaigns_as_obj = [];
 		if (!empty($campaigns_as_assoc)){
 			foreach ($campaigns_as_assoc as $campaign_assoc){
@@ -105,8 +123,7 @@ class CampaignService
 	 */
 	public function updateCampaign(Campaign $campaign)
 	{
-		return CatBotDB::updateCampaign($campaign);
+		return $this->db::updateCampaign($campaign);
 	}
-	
-	
+
 }

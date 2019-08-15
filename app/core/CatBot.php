@@ -47,7 +47,7 @@ class CatBot
 	{
 		try {
 			$this->telegramApiClient = new CatBotTelegram($this->config->get('bot_token'), $this->config->get('bot_username'));
-			$this->campaignService = new CampaignService();
+			$this->campaignService = new CampaignService(CatBotDB::getInstance());
 			$this->telegramApiClient->addCommandsPaths($this->config->get('commands_paths'));
 			$this->telegramApiClient->enableAdmins($this->config->get('bot_admins'));
 			$this->telegramApiClient->enableMySql($this->config->get('db'));
