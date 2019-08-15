@@ -51,7 +51,6 @@ class BalanceCommand extends UserCommand
 		
 		if (!CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)) {
 			$text = "I think you did not started our campaign yet. Type /startcampaign to start it.";
-			$keyboard = Keyboard::remove();
 		} else {
 			
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);

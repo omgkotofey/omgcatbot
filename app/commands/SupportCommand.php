@@ -41,7 +41,6 @@ class SupportCommand extends UserCommand
 	{
 		$message = $this->getMessage();
 		$chat_id = $message->getChat()->getId();
-		$user_id = $message->getFrom()->getId();
 		
 		Request::sendChatAction([
 			'chat_id' => $chat_id,
