@@ -36,6 +36,10 @@ class Campaign
 	 */
 	protected $ethereum_address;
 	/**
+	 * @var $ref_link string|null
+	 */
+	protected $ref_link;
+	/**
 	 * @var $has_tokens_earned integer
 	 */
 	protected $has_tokens_earned;
@@ -172,6 +176,22 @@ class Campaign
 	public function setEthereumAddress(?string $ethereum_address): void
 	{
 		$this->ethereum_address = $ethereum_address;
+	}
+	
+	/**
+	 * @return string|null
+	 */
+	public function getRefLink(): ?string
+	{
+		return $this->ref_link;
+	}
+	
+	/**
+	 * @param string|null $ref_link
+	 */
+	public function setRefLink(?string $ref_link): void
+	{
+		$this->ref_link = $ref_link;
 	}
 	
 	/**

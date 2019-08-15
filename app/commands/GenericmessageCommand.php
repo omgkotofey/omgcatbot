@@ -30,18 +30,7 @@ class GenericmessageCommand extends SystemCommand
 	protected $description = 'Handle generic message';
 	
 	
-	private function checkUserIsFollower($user_id){
-		$isFollowerRequest = Request::getChatMember(['chat_id' => CatBot::app()->config->get('telegram_group_id'), 'user_id' => $user_id]);
-		if ($isFollowerRequest->isOk()){
-			/**
-			 * @var $isFollowerResult ChatMember
-			 */
-			$isFollowerResult = $isFollowerRequest->getResult();
-			$isFollowerUser = $isFollowerResult->getUser();
-			return boolval($isFollowerUser);
-		}
-		return false;
-	}
+	
 	
 	/**
 	 * Command execute method
@@ -55,10 +44,9 @@ class GenericmessageCommand extends SystemCommand
 		$chat_id = $message->getChat()->getId();
 		$user_id = $message->getFrom()->getId();
 		
-		if ($chat_id != CatBot::app()->config->get('telegram_group_id')){
+		if ($chat_id != CatBot::app()->config->get('telegram_group_to_follow_id')){
 			
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
-			$is_follower = $this->checkUserIsFollower($user_id);
 			
 			$text = 'I don\'t understand what are you want for me! 😞'. PHP_EOL . PHP_EOL;
 			$text .= 'Start our campaign by by pressing /startcampaign first if you still did not ';
@@ -70,9 +58,7 @@ class GenericmessageCommand extends SystemCommand
 				'action'  => ChatAction::TYPING,
 			]);
 			
-			if (!empty($user_campaign)){
-				
-				if ($is_follower){
+			if (!empty($user_campaign) && $user_campaign->getIsFollower()){
 					$message_text = trim($message->getText(true));
 					
 					$any_link = CampaignHelper::getTwitterLinkFromText($message_text);
@@ -95,18 +81,19 @@ class GenericmessageCommand extends SystemCommand
 						$user_campaign->setEthereumAddress($any_wallet);
 						$user_campaign->setHasTokensEarned(1);
 						$user_campaign->setTokensEarnedCount(10);
+						$user_campaign->setRefLink(CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username')));
 						
 						if (CatBot::app()->campaignService->updateCampaign($user_campaign)){
 							$text .= 'Thanks! Your details have been submitted successfully.';
 							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Congratulations, you have earned 10 🐱 tokens!';
-							$text .= 'The following details have been logged:.';
+							$text .= 'Congratulations, you have earned 10 🐱 tokens! ';
+							$text .= 'The following details have been logged:';
 							$text .=  PHP_EOL . PHP_EOL;
 							$text .= 'Address - ' . $user_campaign->getEthereumAddress();
 							$text .=  PHP_EOL;
 							$text .= 'Retweet - ' . $user_campaign->getTwitterLink();
 							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Your unique referral link is: ' . CampaignHelper::getUserReferralLink($user_id, CatBot::app()->config->get('bot_username'));
+							$text .= 'Your unique referral link is: ' . $user_campaign->getRefLink();
 							$text .=  PHP_EOL . PHP_EOL;
 							$text .= 'Share and forward the referral link to your network and get 10 🐱 tokens for each friend invited!';
 							$text .= 'They will have to join our chat and stay until the end of the Bounty campaign you to receive the reward!';
@@ -114,13 +101,9 @@ class GenericmessageCommand extends SystemCommand
 							$text .=  PHP_EOL . PHP_EOL;
 							$text .= 'Press /help to know commands you can use to interact';
 						}
-					} else {
-						$text = 'First of all you need to join our group!'. PHP_EOL . PHP_EOL;
-						$text .= 'Please join it to continue campaign';
 					}
 					
 				}
-			}
 			
 			$data = [
 				'chat_id' => $chat_id,
