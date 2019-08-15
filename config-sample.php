@@ -55,4 +55,8 @@ return [
 	 * Link to twitter profile which lase tweet user must to retweet
 	 */
 	'twitter_profile_url' => 'https://twitter.com/example_profile',
+	/**
+	 * Link to support contacts
+	 */
+	'support_link' => '@example_group',
 ];
