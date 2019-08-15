@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   `twitter_link` TEXT DEFAULT NULL COMMENT 'Received from user Twitter link',
   `has_retweet` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'User''s twitter link is really retweet of owr''s twitter account tweet',
   `ethereum_address` CHAR(50) DEFAULT NULL COMMENT 'User''s ethereum address',
+  `ref_link` TEXT DEFAULT NULL COMMENT 'Referral link generated to user address',
   `has_tokens_earned` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Has user earned any tokens from us',
   `tokens_earned_count` INTEGER NOT NULL DEFAULT 0 COMMENT 'How much tokens user already earned',
   `created_at` timestamp NULL DEFAULT NULL COMMENT 'Entry date creation',

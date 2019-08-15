@@ -65,9 +65,10 @@ class CatBotDB extends DB
 	 *
 	 * @param $user_id
 	 * @param int $is_follower
-	 * @param null $twitter_link
+	 * @param string $twitter_link
 	 * @param int $has_retweet
-	 * @param null $ethereum_address
+	 * @param string $ref_link
+	 * @param string $ethereum_address
 	 * @param int $has_tokens_earned
 	 * @param int $tokens_earned_count
 	 *
@@ -80,6 +81,7 @@ class CatBotDB extends DB
 		$twitter_link = null,
 		$has_retweet = 0,
 		$ethereum_address = null,
+		$ref_link = null,
 		$has_tokens_earned = 0,
 		$tokens_earned_count = 0
 	) {
@@ -94,9 +96,9 @@ class CatBotDB extends DB
 		try {
 			$sth = self::$pdo->prepare('
                 INSERT IGNORE INTO `campaign`
-                (`user_id`, `is_follower`, `twitter_link`, `has_retweet`, `ethereum_address`, `has_tokens_earned`, `tokens_earned_count`, `created_at`, `updated_at`)
+                (`user_id`, `is_follower`, `twitter_link`, `has_retweet`, `ethereum_address`, `ref_link`, `has_tokens_earned`, `tokens_earned_count`, `created_at`, `updated_at`)
                 VALUES
-                (:user_id, :is_follower, :twitter_link, :has_retweet, :ethereum_address, :has_tokens_earned, :tokens_earned_count, :created_at, :updated_at)
+                (:user_id, :is_follower, :twitter_link, :has_retweet, :ethereum_address, :ref_link, :has_tokens_earned, :tokens_earned_count, :created_at, :updated_at)
             ');
 			
 			$sth->bindValue(':user_id', $user_id);
@@ -104,6 +106,7 @@ class CatBotDB extends DB
 			$sth->bindValue(':twitter_link', $twitter_link);
 			$sth->bindValue(':has_retweet', $has_retweet);
 			$sth->bindValue(':ethereum_address', $ethereum_address);
+			$sth->bindValue(':ref_link', $ref_link);
 			$sth->bindValue(':has_tokens_earned', $has_tokens_earned);
 			$sth->bindValue(':tokens_earned_count', $tokens_earned_count);
 			$sth->bindValue(':created_at', self::getTimestamp());
@@ -136,6 +139,7 @@ class CatBotDB extends DB
 					`twitter_link` = :twitter_link,
 					`has_retweet` = :has_retweet,
 					`ethereum_address` = :ethereum_address,
+                    `ref_link` = :ref_link,
 					`has_tokens_earned` = :has_tokens_earned,
 					`tokens_earned_count` = :tokens_earned_count,
 		            `updated_at` = :updated_at,
@@ -146,6 +150,7 @@ class CatBotDB extends DB
 			$sth->bindValue(':twitter_link', $campaign->getTwitterLink());
 			$sth->bindValue(':has_retweet', $campaign->getHasRetweet());
 			$sth->bindValue(':ethereum_address', $campaign->getEthereumAddress());
+			$sth->bindValue(':ref_link', $campaign->getRefLink());
 			$sth->bindValue(':has_tokens_earned', $campaign->getHasTokensEarned());
 			$sth->bindValue(':tokens_earned_count', $campaign->getTokensEarnedCount());
 			$sth->bindValue(':updated_at', self::getTimestamp());
