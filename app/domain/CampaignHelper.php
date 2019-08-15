@@ -1,6 +1,5 @@
 <?php
 
-
 namespace app\domain;
 
 class CampaignHelper
@@ -12,7 +11,8 @@ class CampaignHelper
 	 *
 	 * @return string|false
 	 */
-	public static function getTwitterLinkFromText(string $text){
+	public static function getTwitterLinkFromText(string $text)
+	{
 		preg_match('/^https?:\/\/twitter\.com/', $text, $matches);
 		if (!empty($matches)){
 			return reset($matches);
@@ -27,7 +27,8 @@ class CampaignHelper
 	 *
 	 * @return string|false
 	 */
-	public static function getEthereumAddressFromText(string $text){
+	public static function getEthereumAddressFromText(string $text)
+	{
 		preg_match('/^0x[a-fA-F0-9]{40}/', $text, $matches);
 		if (!empty($matches)){
 			return reset($matches);
@@ -38,14 +39,35 @@ class CampaignHelper
 	/**
 	 * Return user referral link
 	 *
-	 * @param string $user_id
 	 * @param string $bot_name
 	 *
 	 * @return string
 	 */
-	public static function getUniqueReferralLink(string $bot_name){
+	public static function getUniqueReferralLink(string $bot_name)
+	{
 		$unique_id = uniqid();
 		return "http://t.me/$bot_name?start=$unique_id";
 	}
-
+	
+	/**
+	 * Return "follow to" links set keyboard array
+	 *
+	 * $group_url and $chanel_url MUST BE valid http(s) protocol links.
+	 * Telegram API will return 400 Bad Request response code if not.
+	 *
+	 * @param $group_url string
+	 * @param $chanel_url string|null
+	 *
+	 * @return array
+	 */
+	public static function getJoinToKeyboardArray(string $group_url, string $chanel_url = null)
+	{
+		$keyboard_array = [
+			['text' => 'Join our group', 'url' => $group_url],
+		];
+		if (!empty($chanel_url)){
+			$keyboard_array[] = ['text' => 'Join our chanel', 'url' => $chanel_url];
+		}
+		return $keyboard_array;
+	}
 }
