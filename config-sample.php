@@ -49,7 +49,7 @@ return [
 	/**
 	 * Telegram chanel which user need to join after campaign start
 	 */
-	'telegram_chanel_to_follow_id' => '2222222222',
+	'telegram_chanel_to_follow_id' => '-2222222222222',
 	'telegram_chanel_to_follow_link_url' => 'https://t.me/example_chanel',
 	/**
 	 * Link to twitter profile which lase tweet user must to retweet
