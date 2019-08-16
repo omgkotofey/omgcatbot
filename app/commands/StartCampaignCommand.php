@@ -75,7 +75,7 @@ class StartCampaignCommand extends UserCommand
 				CatBot::app()->config->get('telegram_chanel_to_follow_link_url')
 			));
 			
-			$text .= 'First of all - you need to join our chanel and group. After this type /check_me and i\'ll check you really done this.';
+			$text .= 'First of all - you need to join our chanel and group. After this type /checkme and i\'ll check you really done this.';
 		}
 		else{
 			$text = 'Oh shit, i think i have broken database. 💀'
