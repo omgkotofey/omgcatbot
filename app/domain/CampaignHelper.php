@@ -40,12 +40,15 @@ class CampaignHelper
 	 * Return user referral link
 	 *
 	 * @param string $bot_name
+	 * @param string $unique_id
 	 *
 	 * @return string
 	 */
-	public static function getUniqueReferralLink(string $bot_name)
+	public static function getUniqueReferralLink(string $bot_name, string $unique_id = null)
 	{
-		$unique_id = uniqid();
+		if (empty($unique_id)){
+			$unique_id = uniqid();
+		}
 		return "http://t.me/$bot_name?start=$unique_id";
 	}
 	
