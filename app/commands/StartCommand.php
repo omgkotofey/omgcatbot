@@ -2,6 +2,9 @@
 
 namespace Longman\TelegramBot\Commands\UserCommands;
 
+use app\core\CatBot;
+use app\domain\CampaignHelper;
+use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Commands\UserCommand;
@@ -40,6 +43,20 @@ class StartCommand extends UserCommand
 	{
 		$message = $this->getMessage();
 		$chat_id = $message->getChat()->getId();
+		$user_id = $message->getFrom()->getId();
+		$referral_code = $this->getMessage()->getText(true);
+		
+		Request::sendChatAction([
+			'chat_id' => $chat_id,
+			'action' => ChatAction::TYPING,
+		]);
+		
+		if (!empty($referral_code)){
+			$referral_link = CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username'), $referral_code);
+			if (!CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)){
+				CatBot::app()->campaignService->sendRewardToReferrer($referral_link);
+			}
+		}
 		
 		$keyboard = new Keyboard([
 			['text' => '/startcampaign']
