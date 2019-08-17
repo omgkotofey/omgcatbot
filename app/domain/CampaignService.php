@@ -125,5 +125,24 @@ class CampaignService
 	{
 		return $this->db::updateCampaign($campaign);
 	}
+	
+	/**
+	 * Send reward for link referrer campaign in database
+	 *
+	 * @param $link string
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+	public function sendRewardToReferrer(string $link){
+		$referrerCampaign = $this->db::selectCampaignByReferralLink($link);
+		if (!empty($referrerCampaign)){
+			$referrerCampaign = $this->buildCampaign($referrerCampaign);
+			$referrerCampaignTokensCount = $referrerCampaign->getTokensEarnedCount();
+			$referrerCampaign->setTokensEarnedCount($referrerCampaignTokensCount + 10);
+			return $this->updateCampaign($referrerCampaign);
+		}
+		return false;
+	}
 
 }
