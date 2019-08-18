@@ -107,7 +107,7 @@ class CatBotDB extends DB implements CampaignDBInterface
                  `has_retweet`,
                  `ethereum_address`,
                  `ref_link`,
-                 `has_tokens_earned`,
+                 `partners_count`,
                  `tokens_earned_count`,
                  `created_at`,
                  `updated_at`)
@@ -118,7 +118,7 @@ class CatBotDB extends DB implements CampaignDBInterface
                  :has_retweet,
                  :ethereum_address,
                  :ref_link,
-                 :has_tokens_earned,
+                 :partners_count,
                  :tokens_earned_count,
                  :created_at,
                  :updated_at)
@@ -130,7 +130,7 @@ class CatBotDB extends DB implements CampaignDBInterface
 			$sth->bindValue(':has_retweet', $campaign->getHasRetweet());
 			$sth->bindValue(':ethereum_address', $campaign->getEthereumAddress());
 			$sth->bindValue(':ref_link', $campaign->getRefLink());
-			$sth->bindValue(':has_tokens_earned', $campaign->getHasTokensEarned());
+			$sth->bindValue(':partners_count', $campaign->getPartnersCount());
 			$sth->bindValue(':tokens_earned_count', $campaign->getTokensEarnedCount());
 			$sth->bindValue(':created_at', self::getTimestamp());
 			$sth->bindValue(':updated_at', self::getTimestamp());
@@ -159,7 +159,7 @@ class CatBotDB extends DB implements CampaignDBInterface
 					`has_retweet` = :has_retweet,
 					`ethereum_address` = :ethereum_address,
                     `ref_link` = :ref_link,
-					`has_tokens_earned` = :has_tokens_earned,
+					`partners_count` = :partners_count,
 					`tokens_earned_count` = :tokens_earned_count,
 		            `updated_at` = :updated_at,
                     `finished_at` = :finished_at
@@ -170,7 +170,7 @@ class CatBotDB extends DB implements CampaignDBInterface
 			$sth->bindValue(':has_retweet', $campaign->getHasRetweet());
 			$sth->bindValue(':ethereum_address', $campaign->getEthereumAddress());
 			$sth->bindValue(':ref_link', $campaign->getRefLink());
-			$sth->bindValue(':has_tokens_earned', $campaign->getHasTokensEarned());
+			$sth->bindValue(':partners_count', $campaign->getPartnersCount());
 			$sth->bindValue(':tokens_earned_count', $campaign->getTokensEarnedCount());
 			$sth->bindValue(':updated_at', self::getTimestamp());
 			$sth->bindValue(':finished_at', $campaign->getFinishedAt());

@@ -80,7 +80,6 @@ class GenericmessageCommand extends SystemCommand
 						$text = 'Looks like ethereum wallet address.'. PHP_EOL . PHP_EOL;
 						
 						$user_campaign->setEthereumAddress($any_wallet);
-						$user_campaign->setHasTokensEarned(1);
 						$user_campaign->setTokensEarnedCount(10);
 						$user_campaign->setRefLink(CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username')));
 						
