@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   `user_id` bigint NOT NULL COMMENT 'Unique identifier for campaign user or bot',
   `is_follower` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'User already followed us on Twitter',
   `twitter_link` TEXT DEFAULT NULL COMMENT 'Received from user Twitter link',
-  `has_retweet` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'User''s twitter link is really retweet of owr''s twitter account tweet',
+  `has_retweet` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'User''s twitter link is really retweet of our twitter account''s tweet',
   `ethereum_address` CHAR(50) DEFAULT NULL COMMENT 'User''s ethereum address',
   `ref_link` TEXT DEFAULT NULL COMMENT 'Referral link generated to user address',
   `has_tokens_earned` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Has user earned any tokens from us',
