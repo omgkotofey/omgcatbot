@@ -82,13 +82,21 @@ class CheckmeCommand extends UserCommand
 			if (!in_array(false, $must_joined)) {
 				$user_campaign->setIsFollower(1);
 				CatBot::app()->campaignService->updateCampaign($user_campaign);
-				$text = "OK. I see - you done it!";
-				$text .= PHP_EOL . PHP_EOL;
-				$text .= 'Now you need to retweet last tweet from our Twitter profile and paste link to your retweet below:';
+				Request::sendMessage([
+					'chat_id' => $chat_id,
+					'text'  => 'OK. I see - you done it!',
+					'reply_markup'=> Keyboard::remove()
+				]);
+				$text = 'Now you need to retweet last tweet from our Twitter profile and paste link to your retweet below:';
 				$keyboard = new InlineKeyboard([
 					[ 'text' => 'Retweet last tweet', 'url' => CatBot::app()->config->get('twitter_profile_url')]
 				]);
 			} else {
+				$keyboard = new Keyboard([
+					['text' => '/checkme']
+				]);
+				$keyboard->setResizeKeyboard(true);
+				$keyboard->setOneTimeKeyboard(true);
 				$text = "Em...Nope. You did not join ";
 				if (!$must_joined['group']) {
 					$text .= 'our group ';
@@ -100,7 +108,6 @@ class CheckmeCommand extends UserCommand
 					$text .= 'our chanel';
 				}
 				$text .= '!' . PHP_EOL . PHP_EOL . 'Join it and type /checkme again.' . PHP_EOL . ' If you forgot WTF is going on type /startcampaign';
-				$keyboard = Keyboard::remove();
 			}
 		}
 		
