@@ -4,6 +4,7 @@ namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use app\core\CatBot;
 use app\domain\CampaignHelper;
+use app\utils\ErrorMessagesHelper;
 use app\utils\KeyboardHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\SystemCommand;
@@ -42,14 +43,9 @@ class GenericmessageCommand extends SystemCommand
 		
 		$keyboard = KeyboardHelper::getEmptyKeyboard();
 		
-		if ($chat_id != CatBot::app()->config->get('telegram_group_to_follow_id')){
-			
+		if ($message->getChat()->getType() == 'private'){
+			// This part of command never be executed in group chats
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
-			
-			$text = 'I don\'t understand what are you want for me! 😞'. PHP_EOL . PHP_EOL;
-			$text .= 'Start our campaign by by pressing /startcampaign first if you still did not ';
-			$text .= 'or just follow previous instructions carefully'. PHP_EOL . PHP_EOL;
-			$text .= 'And don\'t waste my time pls! 😾';
 			
 			Request::sendChatAction([
 				'chat_id' => $chat_id,
@@ -57,12 +53,16 @@ class GenericmessageCommand extends SystemCommand
 			]);
 			
 			if (!empty($user_campaign) && $user_campaign->getIsFollower()){
-					$message_text = trim($message->getText(true));
-					
-					$any_link = CampaignHelper::getTwitterLinkFromText($message_text);
-					$any_wallet = CampaignHelper::getEthereumAddressFromText($message_text);
-					
-					if (!empty($any_link) && empty($user_campaign->getHasRetweet())){
+				// User is our follower and already have started campaign
+				$message_text = trim($message->getText(true));
+				
+				// Try to parse requested input from user
+				$any_link = CampaignHelper::getTwitterLinkFromText($message_text);
+				$any_wallet = CampaignHelper::getEthereumAddressFromText($message_text);
+				
+				if (empty($user_campaign->getHasRetweet())){
+					if (!empty($any_link)){
+						// If user input is a twitter link
 						$text = 'Looks like Twitter link. Thank you for retweet.'. PHP_EOL . PHP_EOL;
 						
 						$user_campaign->setHasRetweet(1);
@@ -71,9 +71,23 @@ class GenericmessageCommand extends SystemCommand
 						if (CatBot::app()->campaignService->updateCampaign($user_campaign)){
 							$text .= 'Now we need to get your Ethereum address (Address needs to begin with 0x and needs to be ERC 20 Compatible)';
 						}
+						
+						return Request::sendMessage([
+							'chat_id' => $chat_id,
+							'text'    => $text,
+							'reply_markup' => $keyboard
+						]);
 					}
-					
-					if (!empty($any_wallet) && $user_campaign->getHasRetweet() && empty($user_campaign->getEthereumAddress())){
+					else {
+						return Request::sendMessage([
+							'chat_id' => $chat_id,
+							'text'    => ErrorMessagesHelper::getWrongRetweetLinkErrorText(),
+							'reply_markup' => $keyboard
+						]);
+					}
+				}
+				else{
+					if (!empty($any_wallet) && empty($user_campaign->getEthereumAddress())){
 						$text = 'Looks like ethereum wallet address.'. PHP_EOL . PHP_EOL;
 						
 						$user_campaign->setEthereumAddress($any_wallet);
@@ -98,11 +112,29 @@ class GenericmessageCommand extends SystemCommand
 							$text .=  PHP_EOL . PHP_EOL;
 							$text .= 'Press /help to know commands you can use to interact';
 							
-							$keyboard = KeyboardHelper::getMainMenuKeyboard();
+							return Request::sendMessage([
+								'chat_id' => $chat_id,
+								'text'    => $text,
+								'reply_markup' => KeyboardHelper::getMainMenuKeyboard()
+							]);
 						}
+					} else {
+						return Request::sendMessage([
+							'chat_id' => $chat_id,
+							'text'    => ErrorMessagesHelper::getWrongWalletErrorText(),
+							'reply_markup' => $keyboard
+						]);
 					}
-					
 				}
+			}
+			else {
+				// User is not our follower or have no started campaign
+				return Request::sendMessage([
+					'chat_id' => $chat_id,
+					'text'    => ErrorMessagesHelper::getCommonErrorText(),
+					'reply_markup' => KeyboardHelper::getStartCampaignKeyboard()
+				]);
+			}
 			
 			$data = [
 				'chat_id' => $chat_id,
@@ -111,7 +143,8 @@ class GenericmessageCommand extends SystemCommand
 			];
 			
 			return Request::sendMessage($data);
+		} else {
+			return Request::emptyResponse();
 		}
-	
 	}
 }
