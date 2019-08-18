@@ -4,11 +4,9 @@ namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use app\core\CatBot;
 use app\domain\CampaignHelper;
-use app\utils\BotDevelopmentHelper;
+use app\utils\KeyboardHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\SystemCommand;
-use Longman\TelegramBot\Entities\ChatMember;
-use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
@@ -30,10 +28,7 @@ class GenericmessageCommand extends SystemCommand
 	 */
 	protected $description = 'Handle generic message';
 	
-	
-	
-	
-	/**
+		/**
 	 * Command execute method
 	 *
 	 * @return ServerResponse
@@ -44,6 +39,8 @@ class GenericmessageCommand extends SystemCommand
 		$message = $this->getMessage();
 		$chat_id = $message->getChat()->getId();
 		$user_id = $message->getFrom()->getId();
+		
+		$keyboard = KeyboardHelper::getEmptyKeyboard();
 		
 		if ($chat_id != CatBot::app()->config->get('telegram_group_to_follow_id')){
 			
@@ -101,17 +98,7 @@ class GenericmessageCommand extends SystemCommand
 							$text .=  PHP_EOL . PHP_EOL;
 							$text .= 'Press /help to know commands you can use to interact';
 							
-							$keyboard = new Keyboard(
-								[
-									['text' => '/balance 💰'],
-									['text' => '/referrallink 👥'],
-								],
-								[
-									['text' => '/support ☎'],
-									['text' => '/socialmedia 🔗']
-								]
-							);
-							$keyboard->setResizeKeyboard(true);
+							$keyboard = KeyboardHelper::getMainMenuKeyboard();
 						}
 					}
 					
@@ -119,12 +106,9 @@ class GenericmessageCommand extends SystemCommand
 			
 			$data = [
 				'chat_id' => $chat_id,
-				'text'    => $text
+				'text'    => $text,
+				'reply_markup' => $keyboard
 			];
-			
-			if (isset($keyboard)){
-				$data['reply_markup'] = $keyboard;
-			}
 			
 			return Request::sendMessage($data);
 		}

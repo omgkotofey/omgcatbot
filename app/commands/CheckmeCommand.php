@@ -5,6 +5,7 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 
 use app\core\CatBot;
+use app\utils\KeyboardHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ChatMember;
@@ -66,7 +67,7 @@ class CheckmeCommand extends UserCommand
 		
 		if (!CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)) {
 			$text = "I think you did not started our campaign yet. Type /startcampaign to start it.";
-			$keyboard = Keyboard::remove();
+			$keyboard = KeyboardHelper::getEmptyKeyboard();
 		} else {
 			
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
@@ -85,18 +86,15 @@ class CheckmeCommand extends UserCommand
 				Request::sendMessage([
 					'chat_id' => $chat_id,
 					'text'  => 'OK. I see - you done it!',
-					'reply_markup'=> Keyboard::remove()
+					'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
 				]);
 				$text = 'Now you need to retweet last tweet from our Twitter profile and paste link to your retweet below:';
-				$keyboard = new InlineKeyboard([
-					[ 'text' => 'Retweet last tweet', 'url' => CatBot::app()->config->get('twitter_profile_url')]
-				]);
+				
+				$keyboard = KeyboardHelper::getRetweetKeyboard( 'Retweet last tweet', CatBot::app()->config->get('twitter_profile_url'));
+				
 			} else {
-				$keyboard = new Keyboard([
-					['text' => '/checkme']
-				]);
-				$keyboard->setResizeKeyboard(true);
-				$keyboard->setOneTimeKeyboard(true);
+				$keyboard = KeyboardHelper::getCheckMeKeyboard();
+				
 				$text = "Em...Nope. You did not join ";
 				if (!$must_joined['group']) {
 					$text .= 'our group ';

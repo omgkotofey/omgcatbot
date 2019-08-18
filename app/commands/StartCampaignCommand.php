@@ -6,6 +6,7 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 use app\core\CatBot;
 use app\domain\CampaignHelper;
+use app\utils\KeyboardHelper;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
@@ -56,41 +57,33 @@ class StartCampaignCommand extends UserCommand
 			Request::sendMessage([
 				'chat_id' => $chat_id,
 				'text'  => "I think you already started a company. Don't piss me off pls.",
-				'reply_markup'=> Keyboard::remove()
+				'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
 			]);
 		}
 		else{
 			Request::sendMessage([
 				'chat_id' => $chat_id,
 				'text'  => "OK. Let's start.",
-				'reply_markup'=> Keyboard::remove()
+				'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
 			]);
 		}
 		
 		$campaignStarted = CatBot::app()->campaignService->createNewUserCampaign($user_id);
 		
 		if ($campaignStarted){
-			$keyboard = new InlineKeyboard(CampaignHelper::getJoinToKeyboardArray(
-				CatBot::app()->config->get('telegram_group_to_follow_link_url'),
-				CatBot::app()->config->get('telegram_channel_to_follow_link_url')
-			));
-			
 			Request::sendMessage([
 				'chat_id' => $chat_id,
 				'text'  => 'First of all - you need to join our channel and group.',
-				'reply_markup'=> $keyboard
+				'reply_markup'=> KeyboardHelper::getJoinToKeyboard(
+					CatBot::app()->config->get('telegram_group_to_follow_link_url'),
+					CatBot::app()->config->get('telegram_group_to_follow_link_url')
+				)
 			]);
-			
-			$keyboard = new Keyboard([
-				['text' => '/checkme']
-			]);
-			$keyboard->setResizeKeyboard(true);
-			$keyboard->setOneTimeKeyboard(true);
 			
 			Request::sendMessage([
 				'chat_id' => $chat_id,
 				'text'  => 'After this type /checkme and i\'ll check you really done this.',
-				'reply_markup'=> $keyboard
+				'reply_markup'=> KeyboardHelper::getCheckMeKeyboard()
 			]);
 		}
 		else{
