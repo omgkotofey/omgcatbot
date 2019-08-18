@@ -13,7 +13,7 @@ class CampaignHelper
 	 */
 	public static function getTwitterLinkFromText(string $text)
 	{
-		preg_match('/^https?:\/\/twitter\.com/', $text, $matches);
+		preg_match('/^https?:\/\/twitter\.com\S+/', $text, $matches);
 		if (!empty($matches)){
 			return reset($matches);
 		}
