@@ -49,7 +49,17 @@ class SupportCommand extends UserCommand
 		
 		$text = 'If you need help ☎️, ask in our group:' . CatBot::app()->config->get('support_link');
 		
-		$keyboard = Keyboard::remove();
+		$keyboard = new Keyboard(
+			[
+				['text' => '/balance 💰'],
+				['text' => '/referrallink 👥'],
+			],
+			[
+				['text' => '/support ☎'],
+				['text' => '/socialmedia 🔗']
+			]
+		);
+		$keyboard->setResizeKeyboard(true);
 		
 		$data = [
 			'chat_id' => $chat_id,

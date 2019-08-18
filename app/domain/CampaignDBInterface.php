@@ -31,6 +31,15 @@ interface CampaignDBInterface
 	public static function selectCampaign($user_id = null, $limit = null);
 	
 	/**
+	 * Fetch campaign from DB by given referral link
+	 *
+	 * @param string $link    Check for unique campaign id
+	 *
+	 * @return array|bool Fetched data or false if not connected
+	 */
+	public static function selectCampaignByReferralLink(string $link);
+	
+	/**
 	 * Insert new user's campaign to Database
 	 *
 	 * @param $campaign Campaign

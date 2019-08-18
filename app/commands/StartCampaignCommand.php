@@ -72,10 +72,26 @@ class StartCampaignCommand extends UserCommand
 		if ($campaignStarted){
 			$keyboard = new InlineKeyboard(CampaignHelper::getJoinToKeyboardArray(
 				CatBot::app()->config->get('telegram_group_to_follow_link_url'),
-				CatBot::app()->config->get('telegram_chanel_to_follow_link_url')
+				CatBot::app()->config->get('telegram_channel_to_follow_link_url')
 			));
 			
-			$text .= 'First of all - you need to join our chanel and group. After this type /check_me and i\'ll check you really done this.';
+			Request::sendMessage([
+				'chat_id' => $chat_id,
+				'text'  => 'First of all - you need to join our channel and group.',
+				'reply_markup'=> $keyboard
+			]);
+			
+			$keyboard = new Keyboard([
+				['text' => '/checkme']
+			]);
+			$keyboard->setResizeKeyboard(true);
+			$keyboard->setOneTimeKeyboard(true);
+			
+			Request::sendMessage([
+				'chat_id' => $chat_id,
+				'text'  => 'After this type /checkme and i\'ll check you really done this.',
+				'reply_markup'=> $keyboard
+			]);
 		}
 		else{
 			$text = 'Oh shit, i think i have broken database. 💀'

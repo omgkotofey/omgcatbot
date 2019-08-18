@@ -63,8 +63,18 @@ class BalanceCommand extends UserCommand
 				$text = "You can not check your token balance yet! Fulfill all all my previous conditions to make it real.";
 			}
 		}
-
-		$keyboard = Keyboard::remove();
+		
+		$keyboard = new Keyboard(
+			[
+				['text' => '/balance 💰'],
+				['text' => '/referrallink 👥'],
+			],
+			[
+				['text' => '/support ☎'],
+				['text' => '/socialmedia 🔗']
+			]
+		);
+		$keyboard->setResizeKeyboard(true);
 		
 		$data = [
 			'chat_id' => $chat_id,

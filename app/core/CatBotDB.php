@@ -63,6 +63,30 @@ class CatBotDB extends DB implements CampaignDBInterface
 	
 	/**
 	 * @inheritDoc
+	 * @throws TelegramException
+	 */
+	public static function selectCampaignByReferralLink(string $link){
+		if (!self::isDbConnected()) {
+			return false;
+		}
+		
+		try {
+			$sql = 'SELECT * FROM `campaign` WHERE `ref_link` = :ref_link';
+			
+			$sth = self::$pdo->prepare($sql);
+			
+			$sth->bindValue(':ref_link', $link, PDO::PARAM_STR);
+
+			$sth->execute();
+			
+			return $sth->fetch(PDO::FETCH_ASSOC);
+		} catch (PDOException $e) {
+			throw new TelegramException($e->getMessage());
+		}
+	}
+	
+	/**
+	 * @inheritDoc
 	 */
 	public static function insertCampaign(Campaign $campaign): bool
 	{

@@ -50,8 +50,8 @@ class SocialmediaCommand extends UserCommand
 			$text .= '<a href="'. CatBot::app()->config->get('telegram_group_to_follow_link_url') .'">Telegram Group</a>';
 			$text .= PHP_EOL;
 		}
-		if (CatBot::app()->config->get('telegram_chanel_to_follow_link_url')){
-			$text .= '<a href="'. CatBot::app()->config->get('telegram_chanel_to_follow_link_url') .'">Telegram Chanel</a>';
+		if (CatBot::app()->config->get('telegram_channel_to_follow_link_url')){
+			$text .= '<a href="'. CatBot::app()->config->get('telegram_channel_to_follow_link_url') .'">Telegram Channel</a>';
 			$text .= PHP_EOL;
 		}
 		if (CatBot::app()->config->get('twitter_profile_url')){
@@ -59,7 +59,17 @@ class SocialmediaCommand extends UserCommand
 			$text .= PHP_EOL;
 		}
 		
-		$keyboard = Keyboard::remove();
+		$keyboard = new Keyboard(
+			[
+				['text' => '/balance 💰'],
+				['text' => '/referrallink 👥'],
+			],
+			[
+				['text' => '/support ☎'],
+				['text' => '/socialmedia 🔗']
+			]
+		);
+		$keyboard->setResizeKeyboard(true);
 		
 		$data = [
 			'chat_id' => $chat_id,

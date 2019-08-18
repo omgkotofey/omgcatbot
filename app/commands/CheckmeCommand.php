@@ -23,7 +23,7 @@ class CheckmeCommand extends UserCommand
 	/**
 	 * @var string
 	 */
-	protected $description = 'Checks do you are already joined all necessary groups and chanel';
+	protected $description = 'Checks do you are already joined all necessary groups and channel';
 	/**
 	 * @var string
 	 */
@@ -75,32 +75,39 @@ class CheckmeCommand extends UserCommand
 				'group' => $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_group_to_follow_id'))
 			];
 			
-			if (CatBot::app()->config->get('telegram_chanel_to_follow_id')) {
-				$must_joined['chanel'] = $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_chanel_to_follow_id'));
+			if (CatBot::app()->config->get('telegram_channel_to_follow_id')) {
+				$must_joined['channel'] = $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_channel_to_follow_id'));
 			}
 			
 			if (!in_array(false, $must_joined)) {
 				$user_campaign->setIsFollower(1);
 				CatBot::app()->campaignService->updateCampaign($user_campaign);
-				$text = "OK. I see - you done it!";
-				$text .= PHP_EOL . PHP_EOL;
-				$text .= 'Now you need to retweet last tweet from our Twitter profile and paste link to your retweet below:';
+				Request::sendMessage([
+					'chat_id' => $chat_id,
+					'text'  => 'OK. I see - you done it!',
+					'reply_markup'=> Keyboard::remove()
+				]);
+				$text = 'Now you need to retweet last tweet from our Twitter profile and paste link to your retweet below:';
 				$keyboard = new InlineKeyboard([
 					[ 'text' => 'Retweet last tweet', 'url' => CatBot::app()->config->get('twitter_profile_url')]
 				]);
 			} else {
+				$keyboard = new Keyboard([
+					['text' => '/checkme']
+				]);
+				$keyboard->setResizeKeyboard(true);
+				$keyboard->setOneTimeKeyboard(true);
 				$text = "Em...Nope. You did not join ";
 				if (!$must_joined['group']) {
 					$text .= 'our group ';
 				}
-				if (isset($must_joined['chanel']) && !$must_joined['chanel']) {
+				if (isset($must_joined['channel']) && !$must_joined['channel']) {
 					if (!$must_joined['group']) {
 						$text .= 'and ';
 					}
-					$text .= 'our chanel';
+					$text .= 'our channel';
 				}
 				$text .= '!' . PHP_EOL . PHP_EOL . 'Join it and type /checkme again.' . PHP_EOL . ' If you forgot WTF is going on type /startcampaign';
-				$keyboard = Keyboard::remove();
 			}
 		}
 		

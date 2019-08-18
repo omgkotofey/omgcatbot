@@ -47,10 +47,10 @@ return [
 	'telegram_group_to_follow_id' => '-111111111',
 	'telegram_group_to_follow_link_url' => 'https://t.me/joinchat/123ABC123ABC',
 	/**
-	 * Telegram chanel which user need to join after campaign start
+	 * Telegram channel which user need to join after campaign start
 	 */
-	'telegram_chanel_to_follow_id' => '-2222222222222',
-	'telegram_chanel_to_follow_link_url' => 'https://t.me/example_chanel',
+	'telegram_channel_to_follow_id' => '-2222222222222',
+	'telegram_channel_to_follow_link_url' => 'https://t.me/example_channel',
 	/**
 	 * Link to twitter profile which lase tweet user must to retweet
 	 */

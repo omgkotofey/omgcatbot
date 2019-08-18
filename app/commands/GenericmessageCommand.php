@@ -8,6 +8,7 @@ use app\utils\BotDevelopmentHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\ChatMember;
+use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
@@ -100,6 +101,18 @@ class GenericmessageCommand extends SystemCommand
 							$text .= 'Users who get caught cheating will be disqualified.';
 							$text .=  PHP_EOL . PHP_EOL;
 							$text .= 'Press /help to know commands you can use to interact';
+							
+							$keyboard = new Keyboard(
+								[
+									['text' => '/balance 💰'],
+									['text' => '/referrallink 👥'],
+								],
+								[
+									['text' => '/support ☎'],
+									['text' => '/socialmedia 🔗']
+								]
+							);
+							$keyboard->setResizeKeyboard(true);
 						}
 					}
 					
@@ -109,6 +122,10 @@ class GenericmessageCommand extends SystemCommand
 				'chat_id' => $chat_id,
 				'text'    => $text
 			];
+			
+			if (isset($keyboard)){
+				$data['reply_markup'] = $keyboard;
+			}
 			
 			return Request::sendMessage($data);
 		}
