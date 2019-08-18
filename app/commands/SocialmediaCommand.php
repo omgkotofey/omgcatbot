@@ -62,7 +62,8 @@ class SocialmediaCommand extends UserCommand
 		$data = [
 			'chat_id' => $chat_id,
 			'text' => $text,
-			'reply_markup' => KeyboardHelper::getMainMenuKeyboard()
+			'reply_markup' => KeyboardHelper::getMainMenuKeyboard(),
+			'parse_mode' => 'html'
 		];
 		
 		return Request::sendMessage($data);
