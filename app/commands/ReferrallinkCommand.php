@@ -65,7 +65,17 @@ class ReferrallinkCommand extends UserCommand
 			}
 		}
 		
-		$keyboard = Keyboard::remove();
+		$keyboard = new Keyboard(
+			[
+				['text' => '/balance 💰'],
+				['text' => '/referrallink 👥'],
+			],
+			[
+				['text' => '/support ☎'],
+				['text' => '/socialmedia 🔗']
+			]
+		);
+		$keyboard->setResizeKeyboard(true);
 		
 		$data = [
 			'chat_id' => $chat_id,
