@@ -23,7 +23,7 @@ class CheckmeCommand extends UserCommand
 	/**
 	 * @var string
 	 */
-	protected $description = 'Checks do you are already joined all necessary groups and chanel';
+	protected $description = 'Checks do you are already joined all necessary groups and channel';
 	/**
 	 * @var string
 	 */
@@ -75,8 +75,8 @@ class CheckmeCommand extends UserCommand
 				'group' => $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_group_to_follow_id'))
 			];
 			
-			if (CatBot::app()->config->get('telegram_chanel_to_follow_id')) {
-				$must_joined['chanel'] = $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_chanel_to_follow_id'));
+			if (CatBot::app()->config->get('telegram_channel_to_follow_id')) {
+				$must_joined['channel'] = $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_channel_to_follow_id'));
 			}
 			
 			if (!in_array(false, $must_joined)) {
@@ -101,11 +101,11 @@ class CheckmeCommand extends UserCommand
 				if (!$must_joined['group']) {
 					$text .= 'our group ';
 				}
-				if (isset($must_joined['chanel']) && !$must_joined['chanel']) {
+				if (isset($must_joined['channel']) && !$must_joined['channel']) {
 					if (!$must_joined['group']) {
 						$text .= 'and ';
 					}
-					$text .= 'our chanel';
+					$text .= 'our channel';
 				}
 				$text .= '!' . PHP_EOL . PHP_EOL . 'Join it and type /checkme again.' . PHP_EOL . ' If you forgot WTF is going on type /startcampaign';
 			}
