@@ -40,9 +40,9 @@ class Campaign
 	 */
 	protected $ref_link;
 	/**
-	 * @var $has_tokens_earned integer
+	 * @var $partners_count integer
 	 */
-	protected $has_tokens_earned;
+	protected $partners_count;
 	/**
 	 * @var $tokens_earned_count integer
 	 */
@@ -195,20 +195,21 @@ class Campaign
 	}
 	
 	/**
-	 * @return int
+	 * @return string|null
 	 */
-	public function getHasTokensEarned(): int
+	public function getPartnersCount(): ?string
 	{
-		return $this->has_tokens_earned;
+		return $this->partners_count;
 	}
 	
 	/**
-	 * @param int $has_tokens_earned
+	 * @param int $partners_count
 	 */
-	public function setHasTokensEarned(int $has_tokens_earned): void
+	public function setPartnersCount(int $partners_count): void
 	{
-		$this->has_tokens_earned = $has_tokens_earned;
+		$this->partners_count = $partners_count;
 	}
+
 	
 	/**
 	 * @return int

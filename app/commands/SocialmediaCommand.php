@@ -5,9 +5,9 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 
 use app\core\CatBot;
+use app\utils\KeyboardHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\UserCommand;
-use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
@@ -59,27 +59,12 @@ class SocialmediaCommand extends UserCommand
 			$text .= PHP_EOL;
 		}
 		
-		$keyboard = new Keyboard(
-			[
-				['text' => '/balance 💰'],
-				['text' => '/referrallink 👥'],
-			],
-			[
-				['text' => '/support ☎'],
-				['text' => '/socialmedia 🔗']
-			]
-		);
-		$keyboard->setResizeKeyboard(true);
-		
 		$data = [
 			'chat_id' => $chat_id,
 			'text' => $text,
+			'reply_markup' => KeyboardHelper::getMainMenuKeyboard(),
 			'parse_mode' => 'html'
 		];
-		
-		if (isset($keyboard)) {
-			$data['reply_markup'] = $keyboard;
-		}
 		
 		return Request::sendMessage($data);
 	}

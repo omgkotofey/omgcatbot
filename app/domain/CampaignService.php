@@ -42,7 +42,7 @@ class CampaignService
 			'has_retweet' => 0,
 			'ethereum_address' => null,
 			'ref_link' => null,
-			'has_tokens_earned' => 0,
+			'partners_count' => 0,
 			'tokens_earned_count' => 0,
 		];
 		
@@ -138,8 +138,8 @@ class CampaignService
 		$referrerCampaign = $this->db::selectCampaignByReferralLink($link);
 		if (!empty($referrerCampaign)){
 			$referrerCampaign = $this->buildCampaign($referrerCampaign);
-			$referrerCampaignTokensCount = $referrerCampaign->getTokensEarnedCount();
-			$referrerCampaign->setTokensEarnedCount($referrerCampaignTokensCount + 10);
+			$referrerCampaign->setTokensEarnedCount($referrerCampaign->getTokensEarnedCount() + 10);
+			$referrerCampaign->setPartnersCount($referrerCampaign->getPartnersCount() + 1);
 			return $this->updateCampaign($referrerCampaign);
 		}
 		return false;
