@@ -23,6 +23,22 @@ class ErrorMessagesHelper
 	}
 	
 	/**
+	 * Return common error message text.
+	 * Eg bot can't find any command user wants to execute, or do not wait for any data input.
+	 *
+	 * @return string
+	 */
+	public static function getCampaignCompleteErrorText()
+	{
+		$text = 'I don\'t understand what are you want for me! 😿';
+		$text .= PHP_EOL . PHP_EOL;
+		$text .= 'Please, choose any command from menu';
+		
+		return $text;
+	}
+
+	
+	/**
 	 * Return wrong twitter link error message text.
 	 * Eg bot can't parse any twitter link on retweet waiting stage of campaign.
 	 *

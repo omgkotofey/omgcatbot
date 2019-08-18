@@ -27,7 +27,11 @@ class GenericmessageCommand extends SystemCommand
 	/**
 	 * @var string
 	 */
-	protected $description = 'Handle generic message';
+	protected $description = 'Handle any generic message';
+	
+	private function provideCampaignProgressBehavior(){
+	
+	}
 	
 		/**
 	 * Command execute method
@@ -87,42 +91,52 @@ class GenericmessageCommand extends SystemCommand
 					}
 				}
 				else{
-					if (!empty($any_wallet) && empty($user_campaign->getEthereumAddress())){
-						$text = 'Looks like ethereum wallet address.'. PHP_EOL . PHP_EOL;
-						
-						$user_campaign->setEthereumAddress($any_wallet);
-						$user_campaign->setTokensEarnedCount(10);
-						$user_campaign->setRefLink(CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username')));
-						
-						if (CatBot::app()->campaignService->updateCampaign($user_campaign)){
-							$text .= 'Thanks! Your details have been submitted successfully.';
-							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Congratulations, you have earned 10 🐱 tokens! ';
-							$text .= 'The following details have been logged:';
-							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Address - ' . $user_campaign->getEthereumAddress();
-							$text .=  PHP_EOL;
-							$text .= 'Retweet - ' . $user_campaign->getTwitterLink();
-							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Your unique referral link is: ' . $user_campaign->getRefLink();
-							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Share and forward the referral link to your network and get 10 🐱 tokens for each friend invited!';
-							$text .= 'They will have to join our chat and stay until the end of the Bounty campaign you to receive the reward!';
-							$text .= 'Users who get caught cheating will be disqualified.';
-							$text .=  PHP_EOL . PHP_EOL;
-							$text .= 'Press /help to know commands you can use to interact';
+					if (empty($user_campaign->getEthereumAddress())){
+						if (!empty($any_wallet)){
+							$text = 'Looks like ethereum wallet address.'. PHP_EOL . PHP_EOL;
 							
+							$user_campaign->setEthereumAddress($any_wallet);
+							$user_campaign->setTokensEarnedCount(10);
+							$user_campaign->setRefLink(CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username')));
+							
+							if (CatBot::app()->campaignService->updateCampaign($user_campaign)){
+								$text .= 'Thanks! Your details have been submitted successfully.';
+								$text .=  PHP_EOL . PHP_EOL;
+								$text .= 'Congratulations, you have earned 10 🐱 tokens! ';
+								$text .= 'The following details have been logged:';
+								$text .=  PHP_EOL . PHP_EOL;
+								$text .= 'Address - ' . $user_campaign->getEthereumAddress();
+								$text .=  PHP_EOL;
+								$text .= 'Retweet - ' . $user_campaign->getTwitterLink();
+								$text .=  PHP_EOL . PHP_EOL;
+								$text .= 'Your unique referral link is: ' . $user_campaign->getRefLink();
+								$text .=  PHP_EOL . PHP_EOL;
+								$text .= 'Share and forward the referral link to your network and get 10 🐱 tokens for each friend invited!';
+								$text .= 'They will have to join our chat and stay until the end of the Bounty campaign you to receive the reward!';
+								$text .= 'Users who get caught cheating will be disqualified.';
+								$text .=  PHP_EOL . PHP_EOL;
+								$text .= 'Press /help to know commands you can use to interact';
+								
+								return Request::sendMessage([
+									'chat_id' => $chat_id,
+									'text'    => $text,
+									'reply_markup' => KeyboardHelper::getMainMenuKeyboard()
+								]);
+							}
+						}
+						else {
 							return Request::sendMessage([
 								'chat_id' => $chat_id,
-								'text'    => $text,
-								'reply_markup' => KeyboardHelper::getMainMenuKeyboard()
+								'text'    => ErrorMessagesHelper::getWrongWalletErrorText(),
+								'reply_markup' => $keyboard
 							]);
 						}
-					} else {
+					}
+					else{
 						return Request::sendMessage([
 							'chat_id' => $chat_id,
-							'text'    => ErrorMessagesHelper::getWrongWalletErrorText(),
-							'reply_markup' => $keyboard
+							'text'    => ErrorMessagesHelper::getCampaignCompleteErrorText(),
+							'reply_markup' => KeyboardHelper::getMainMenuKeyboard()
 						]);
 					}
 				}
