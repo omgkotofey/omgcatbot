@@ -29,8 +29,17 @@ class GenericmessageCommand extends SystemCommand
 	 */
 	protected $description = 'Handle any generic message';
 	
-	private function provideCampaignProgressBehavior(){
-	
+	private function getCommandAliasFromText($message_text){
+		$commands_aliases = CatBot::app()->config->get('commands_aliases');
+		if (is_array($commands_aliases) && !empty($commands_aliases)){
+			foreach ($commands_aliases as $command => $commands_alias){
+				$regexp = "/^$commands_alias/";
+				if (CampaignHelper::getFragmentFromTextByRegexp($message_text, $regexp)){
+					return $command;
+				}
+			}
+		}
+		return false;
 	}
 	
 		/**
@@ -44,11 +53,26 @@ class GenericmessageCommand extends SystemCommand
 		$message = $this->getMessage();
 		$chat_id = $message->getChat()->getId();
 		$user_id = $message->getFrom()->getId();
-		
+		$message_text = trim($message->getText(true));
 		$keyboard = KeyboardHelper::getEmptyKeyboard();
 		
+
+		// Try to parse any text command alias from text
+		if (CatBot::app()->config->get('use_commands_aliases')){
+			
+			$text_command = $this->getCommandAliasFromText($message_text);
+			
+			if (!empty($text_command)){
+				$text_command = preg_replace('/\//', '', $text_command);
+				return $this->getTelegram()->executeCommand($text_command);
+			}
+		}
+	
 		if ($message->getChat()->getType() == 'private'){
 			// This part of command never be executed in group chats
+			
+			
+			
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
 			
 			Request::sendChatAction([
@@ -56,10 +80,9 @@ class GenericmessageCommand extends SystemCommand
 				'action'  => ChatAction::TYPING,
 			]);
 			
+			// Only if user is our follower and already have started campaign
 			if (!empty($user_campaign) && $user_campaign->getIsFollower()){
-				// User is our follower and already have started campaign
-				$message_text = trim($message->getText(true));
-				
+
 				// Try to parse requested input from user
 				$any_link = CampaignHelper::getTwitterLinkFromText($message_text);
 				$any_wallet = CampaignHelper::getEthereumAddressFromText($message_text);
@@ -157,6 +180,7 @@ class GenericmessageCommand extends SystemCommand
 			];
 			
 			return Request::sendMessage($data);
+			
 		} else {
 			return Request::emptyResponse();
 		}
