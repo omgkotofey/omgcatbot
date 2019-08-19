@@ -9,8 +9,6 @@ use app\utils\KeyboardHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ChatMember;
-use Longman\TelegramBot\Entities\InlineKeyboard;
-use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
@@ -66,7 +64,7 @@ class CheckmeCommand extends UserCommand
 		]);
 		
 		if (!CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)) {
-			$text = "I think you did not started our campaign yet. Type /startcampaign to start it.";
+			$text = 'I think you did not started our campaign yet. Type "Start campaign" to start it.';
 			$keyboard = KeyboardHelper::getEmptyKeyboard();
 		} else {
 			
@@ -105,7 +103,7 @@ class CheckmeCommand extends UserCommand
 					}
 					$text .= 'our channel';
 				}
-				$text .= '!' . PHP_EOL . PHP_EOL . 'Join it and type /checkme again.' . PHP_EOL . ' If you forgot WTF is going on type /startcampaign';
+				$text .= '!' . PHP_EOL . PHP_EOL . 'Join it and type "Check me" again.';
 			}
 		}
 		

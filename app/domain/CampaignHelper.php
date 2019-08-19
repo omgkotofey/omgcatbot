@@ -5,6 +5,22 @@ namespace app\domain;
 class CampaignHelper
 {
 	/**
+	 * Get first found text fragment form text by given regexp
+	 *
+	 * @param string $text
+	 * @param string $regexp
+	 *
+	 * @return string|false
+	 */
+	public static function getFragmentFromTextByRegexp(string $text, string $regexp)
+	{
+		preg_match($regexp, $text, $matches);
+		if (!empty($matches)){
+			return reset($matches);
+		}
+		return false;
+	}
+	/**
 	 * Get first found link form text
 	 *
 	 * @param string $text
@@ -13,11 +29,7 @@ class CampaignHelper
 	 */
 	public static function getTwitterLinkFromText(string $text)
 	{
-		preg_match('/^https?:\/\/twitter\.com\S+/', $text, $matches);
-		if (!empty($matches)){
-			return reset($matches);
-		}
-		return false;
+		return self::getFragmentFromTextByRegexp($text, '/^https?:\/\/twitter\.com\S+/');
 	}
 	
 	/**
@@ -29,11 +41,7 @@ class CampaignHelper
 	 */
 	public static function getEthereumAddressFromText(string $text)
 	{
-		preg_match('/^0x[a-fA-F0-9]{40}/', $text, $matches);
-		if (!empty($matches)){
-			return reset($matches);
-		}
-		return false;
+		return self::getFragmentFromTextByRegexp($text, '/^0x[a-fA-F0-9]{40}/');
 	}
 	
 	/**

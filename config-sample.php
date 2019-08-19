@@ -59,4 +59,16 @@ return [
 	 * Link to support contacts
 	 */
 	'support_link' => '@example_group',
+	/**
+	 * Array of commands aliases.
+	 * If bot will find any of command alias in user input - associated command will executed
+	 */
+	'commands_aliases' => [
+		'/startcampaign' => 'Start campaign',
+		'/checkme' => 'Check me',
+		'/balance' => 'Balance',
+		'/referrallink' => 'Referral link',
+		'/socialmedia' => 'Social media',
+		'/support' => 'Support'
+	]
 ];
