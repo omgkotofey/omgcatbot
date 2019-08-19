@@ -10,7 +10,6 @@ use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Request;
-use Longman\TelegramBot\Entities\Keyboard;
 /**
  * Start command
  *
@@ -63,7 +62,7 @@ class StartCommand extends UserCommand
 					. PHP_EOL .
 					'If you completely fulfill all my conditions, you will receive 10 🐱 tokens for any actions that do not annoy me...'
 					. PHP_EOL .
-					'Press "/startcampaign" button to start the CatBot campaign 🚀:';
+					'Press "Start campaign" button to start the CatBot campaign 🚀:';
 		
 		$data = [
 			'chat_id' => $chat_id,

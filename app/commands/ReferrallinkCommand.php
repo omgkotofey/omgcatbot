@@ -8,7 +8,6 @@ use app\core\CatBot;
 use app\utils\KeyboardHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\UserCommand;
-use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
@@ -52,7 +51,7 @@ class ReferrallinkCommand extends UserCommand
 		]);
 		
 		if (!CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)) {
-			$text = "I think you did not started our campaign yet. Type /startcampaign to start it.";
+			$text = 'I think you did not started our campaign yet. Type "Start campaign" to start it.';;
 			$keyboard = KeyboardHelper::getStartCampaignKeyboard();
 		} else {
 			

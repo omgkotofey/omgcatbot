@@ -42,7 +42,7 @@ class KeyboardHelper
 	public static function getCheckMeKeyboard()
 	{
 		$keyboard = new Keyboard([
-			['text' => '/checkme']
+			['text' => 'Check me']
 		]);
 		$keyboard->setResizeKeyboard(true);
 		$keyboard->setOneTimeKeyboard(true);
@@ -58,7 +58,7 @@ class KeyboardHelper
 	public static function getStartCampaignKeyboard()
 	{
 		$keyboard = new Keyboard([
-			['text' => '/startcampaign']
+			['text' => 'Start campaign 🚀']
 		]);
 		$keyboard->setResizeKeyboard(true);
 		$keyboard->setOneTimeKeyboard(true);
@@ -96,12 +96,12 @@ class KeyboardHelper
 	{
 		$keyboard = new Keyboard(
 			[
-				['text' => '/balance 💰'],
-				['text' => '/referrallink 👥'],
+				['text' => 'Balance 💰'],
+				['text' => 'Referral link 🔗'],
 			],
 			[
-				['text' => '/support ☎'],
-				['text' => '/socialmedia 🔗']
+				['text' => 'Support ☎'],
+				['text' => 'Social media 👥']
 			]
 		);
 		$keyboard->setResizeKeyboard(true);

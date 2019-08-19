@@ -16,7 +16,7 @@ class ErrorMessagesHelper
 	{
 		$text = 'I don\'t understand what are you want for me! 😿';
 		$text .= PHP_EOL . PHP_EOL;
-		$text .= 'Start our campaign by by pressing /startcampaign first if you still did not ';
+		$text .= 'Start our campaign by by pressing "Start campaign" first if you still did not ';
 		$text .= 'or just follow previous instructions carefully';
 		
 		return $text;

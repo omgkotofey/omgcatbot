@@ -5,15 +5,12 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 
 use app\core\CatBot;
-use app\domain\CampaignHelper;
 use app\utils\KeyboardHelper;
 use Longman\TelegramBot\Commands\UserCommand;
-use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;
 use Longman\TelegramBot\ChatAction;
-use Longman\TelegramBot\Entities\Keyboard;
 
 class StartCampaignCommand extends UserCommand
 {
