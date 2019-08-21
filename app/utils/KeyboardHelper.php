@@ -28,7 +28,7 @@ class KeyboardHelper
 			$keyboard_array[] = ['text' => 'Join our channel', 'url' => $channel_url];
 		}
 		
-		$keyboard = new InlineKeyboard([$keyboard_array]);
+		$keyboard = new InlineKeyboard($keyboard_array);
 		$keyboard->setResizeKeyboard(true);
 		
 		return $keyboard;
