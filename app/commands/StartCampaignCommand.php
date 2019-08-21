@@ -73,13 +73,13 @@ class StartCampaignCommand extends UserCommand
 				'text'  => 'First of all - you need to join our channel and group.',
 				'reply_markup'=> KeyboardHelper::getJoinToKeyboard(
 					CatBot::app()->config->get('telegram_group_to_follow_link_url'),
-					CatBot::app()->config->get('telegram_group_to_follow_link_url')
+					CatBot::app()->config->get('telegram_channel_to_follow_link_url')
 				)
 			]);
 			
 			Request::sendMessage([
 				'chat_id' => $chat_id,
-				'text'  => 'After this type /checkme and i\'ll check you really done this.',
+				'text'  => 'After this type "Check me" and i\'ll check you really done this.',
 				'reply_markup'=> KeyboardHelper::getCheckMeKeyboard()
 			]);
 		}
