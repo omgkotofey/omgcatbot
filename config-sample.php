@@ -10,6 +10,10 @@ return [
 	 */
 	'bot_username' => 'example_bot',
 	/**
+	 * Bot's extended name/title
+	 */
+	'bot_title' => 'example airdrop bot',
+	/**
 	 * Array of users which will have admin access to bot's private chat
 	 */
 	'bot_admins' =>[
