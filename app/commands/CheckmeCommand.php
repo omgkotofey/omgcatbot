@@ -83,17 +83,17 @@ class CheckmeCommand extends UserCommand
 				CatBot::app()->campaignService->updateCampaign($user_campaign);
 				Request::sendMessage([
 					'chat_id' => $chat_id,
-					'text'  => 'OK. I see - you done it!',
+					'text'  => 'Awesome! You done with a first step.',
 					'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
 				]);
-				$text = 'Now you need to retweet last tweet from our Twitter profile and paste link to your retweet below:';
+				$text = 'Now you have to follow our twitter acc and retweet pinned tweet from it. Please, paste the link to you retweet below:';
 				
-				$keyboard = KeyboardHelper::getRetweetKeyboard( 'Retweet last tweet', CatBot::app()->config->get('twitter_profile_url'));
+				$keyboard = KeyboardHelper::getRetweetKeyboard( 'Retweet pinned tweet', CatBot::app()->config->get('twitter_profile_url'));
 				
 			} else {
 				$keyboard = KeyboardHelper::getCheckMeKeyboard();
 				
-				$text = "Em...Nope. You did not join ";
+				$text = "You haven't pass the check. You did not join ";
 				if (!$must_joined['group']) {
 					$text .= 'our group ';
 				}
@@ -103,7 +103,7 @@ class CheckmeCommand extends UserCommand
 					}
 					$text .= 'our channel';
 				}
-				$text .= '!' . PHP_EOL . PHP_EOL . 'Join it and type "Check me" again.';
+				$text .= '!' . PHP_EOL . PHP_EOL . 'Please, try again and tap "Check Me" button...';
 			}
 		}
 		
