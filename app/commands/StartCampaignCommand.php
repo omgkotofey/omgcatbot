@@ -50,20 +50,29 @@ class StartCampaignCommand extends UserCommand
 		
 		$text = '';
 		
+		if (CatBot::app()->campaignService->getStartedCampaignsCount() >= CatBot::app()->config->get('max_campaigns_count') && !CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)){
+			Request::sendMessage([
+				'chat_id' => $chat_id,
+				'text'  => "Sorry, you are late. Airdrop phase is closed.",
+				'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
+			]);
+			return Request::emptyResponse();
+		}
+		
 		if (CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)){
 			Request::sendMessage([
 				'chat_id' => $chat_id,
-				'text'  => "I think you already have started company.",
+				'text'  => "I think you already have started campaign. Check chat history.",
 				'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
 			]);
+			return Request::emptyResponse();
 		}
-		else{
-			Request::sendMessage([
-				'chat_id' => $chat_id,
-				'text'  => "OK. Let's start.",
-				'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
-			]);
-		}
+		
+		Request::sendMessage([
+			'chat_id' => $chat_id,
+			'text'  => "OK. Let's start.",
+			'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
+		]);
 		
 		$campaignStarted = CatBot::app()->campaignService->createNewUserCampaign($user_id);
 		
