@@ -14,7 +14,7 @@ class CampaignService
 		$this->db = $db;
 	}
 	
-	/**
+	/**`
 	 * Build new Campaign entity form assoc array
 	 *
 	 * @param $campaign_data array
@@ -130,19 +130,20 @@ class CampaignService
 	 * Send reward for link referrer campaign in database
 	 *
 	 * @param $link string
+	 * @param $token_count int
 	 *
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function sendRewardToReferrer(string $link){
+	public function sendRewardToReferrer(string $link, int $token_count){
 		$referrerCampaign = $this->db::selectCampaignByReferralLink($link);
 		if (!empty($referrerCampaign)){
 			$referrerCampaign = $this->buildCampaign($referrerCampaign);
-			$referrerCampaign->setTokensEarnedCount($referrerCampaign->getTokensEarnedCount() + 10);
+			$referrerCampaign->setTokensEarnedCount($referrerCampaign->getTokensEarnedCount() + $token_count);
 			$referrerCampaign->setPartnersCount($referrerCampaign->getPartnersCount() + 1);
 			return $this->updateCampaign($referrerCampaign);
 		}
 		return false;
 	}
-
+	
 }

@@ -58,7 +58,9 @@ class ReferrallinkCommand extends UserCommand
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
 			
 			if (!empty($user_campaign->getRefLink())){
-				$text = "Earn 10 🐱 Token for every partner.";
+				$text = "Earn"; ;
+				$text .= CatBot::app()->config->get('referrer_invite_reward_tokens_count') . ' ' .  CatBot::app()->config->get('token_name');
+				$text .= " token for every partner.";
 				$text .= PHP_EOL . PHP_EOL;
 				$text .= "Share this link with your friends:";
 				$text .= PHP_EOL;
@@ -68,7 +70,7 @@ class ReferrallinkCommand extends UserCommand
 				$text = "I can not show your referral link yet! Fulfill all all my previous conditions to make it real.";
 			}
 		}
-
+		
 		$data = [
 			'chat_id' => $chat_id,
 			'text' => $text,

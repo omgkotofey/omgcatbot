@@ -60,9 +60,10 @@ class BalanceCommand extends UserCommand
 			if (!empty($user_campaign->getEthereumAddress())){
 				$user_tokens_count = $user_campaign->getTokensEarnedCount();
 				$user_partners_count = $user_campaign->getPartnersCount();
+				$token_name = CatBot::app()->config->get('token_name');
 				$text = "$user_partners_count Partners 👥";
 				$text .= PHP_EOL;
-				$text .= "$user_tokens_count ENOD tokens earned";
+				$text .= "$user_tokens_count $token_name tokens earned";
 				$keyboard = KeyboardHelper::getMainMenuKeyboard();
 			} else {
 				$text = "You can not check your token balance yet! Fulfill all all my previous conditions to make it real.";

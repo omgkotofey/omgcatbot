@@ -15,8 +15,8 @@ use Longman\TelegramBot\ChatAction;
 class StartCampaignCommand extends UserCommand
 {
 	/**
-	* @var string
-	*/
+	 * @var string
+	 */
 	protected $name = 'startcampaign';
 	/**
 	 * @var string
@@ -53,7 +53,7 @@ class StartCampaignCommand extends UserCommand
 		if (CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)){
 			Request::sendMessage([
 				'chat_id' => $chat_id,
-				'text'  => "I think you already started a company. Don't piss me off pls.",
+				'text'  => "I think you already have started company.",
 				'reply_markup'=> KeyboardHelper::getEmptyKeyboard()
 			]);
 		}
@@ -70,7 +70,7 @@ class StartCampaignCommand extends UserCommand
 		if ($campaignStarted){
 			Request::sendMessage([
 				'chat_id' => $chat_id,
-				'text'  => 'First of all - you need to join our channel and group.',
+				'text'  => 'First, you have to join our telegram group and channel.',
 				'reply_markup'=> KeyboardHelper::getJoinToKeyboard(
 					CatBot::app()->config->get('telegram_group_to_follow_link_url'),
 					CatBot::app()->config->get('telegram_channel_to_follow_link_url')
@@ -79,16 +79,16 @@ class StartCampaignCommand extends UserCommand
 			
 			Request::sendMessage([
 				'chat_id' => $chat_id,
-				'text'  => 'After this type "Check me" and i\'ll check you really done this.',
+				'text'  => 'After that tab "Check me" button.',
 				'reply_markup'=> KeyboardHelper::getCheckMeKeyboard()
 			]);
 		}
 		else{
-			$text = 'Oh shit, i think i have broken database. 💀'
-					. PHP_EOL .
-					'Sorry, but i can not make you happy with 🐱 tokens right now. 😿'
-					. PHP_EOL .
-					'Try again later. ⌛';
+			$text = 'I think i have broken database. 💀'
+				. PHP_EOL .
+				'Sorry, but i can not make you happy with tokens right now. 😿'
+				. PHP_EOL .
+				'Try again later. ⌛';
 		}
 		
 		$data = [
@@ -99,7 +99,7 @@ class StartCampaignCommand extends UserCommand
 		if (isset($keyboard)){
 			$data['reply_markup'] = $keyboard;
 		}
-	
+		
 		return Request::sendMessage($data);
 	}
 }

@@ -14,7 +14,7 @@ class ErrorMessagesHelper
 	 */
 	public static function getCommonErrorText()
 	{
-		$text = 'I don\'t understand what are you want for me! 😿';
+		$text = 'I don\'t understand what are you want for me!';
 		$text .= PHP_EOL . PHP_EOL;
 		$text .= 'Start our campaign by by pressing "Start campaign" first if you still did not ';
 		$text .= 'or just follow previous instructions carefully';
@@ -36,7 +36,7 @@ class ErrorMessagesHelper
 		
 		return $text;
 	}
-
+	
 	
 	/**
 	 * Return wrong twitter link error message text.
@@ -46,7 +46,7 @@ class ErrorMessagesHelper
 	 */
 	public static function getWrongRetweetLinkErrorText()
 	{
-		$text = 'It doesn\'t look like link to your retweet! 😿';
+		$text = 'It doesn\'t looks like your retweet. Please try again.';
 		
 		return $text;
 	}
@@ -59,11 +59,11 @@ class ErrorMessagesHelper
 	 */
 	public static function getWrongWalletErrorText()
 	{
-		$text = 'It doesn\'t look like Ethereum address! 😿';
+		$text = 'It doesn\'t look like Ethereum address!';
 		$text .= PHP_EOL . PHP_EOL;
 		$text .= 'Address needs to begin with 0x and needs to be ERC 20 Compatible';
 		
 		return $text;
 	}
-
+	
 }
