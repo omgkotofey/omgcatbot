@@ -47,7 +47,7 @@ class SupportCommand extends UserCommand
 			'action' => ChatAction::TYPING,
 		]);
 		
-		$text = 'If you need help ☎️, ask in our group:' . CatBot::app()->config->get('support_link');
+		$text = 'If you need help ☎️, ask in our group: ' . CatBot::app()->config->get('support_link');
 		
 		$data = [
 			'chat_id' => $chat_id,
