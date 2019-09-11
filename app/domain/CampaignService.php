@@ -55,6 +55,17 @@ class CampaignService
 	}
 	
 	/**
+	 * Get all started campaigns count
+	 *
+	 * @return int
+	 * @throws Exception
+	 */
+	public function getStartedCampaignsCount()
+	{
+		return count($this->db::selectCampaign());
+	}
+	
+	/**
 	 * Get all user's campaigns as array of objects
 	 *
 	 * @param $user_id
