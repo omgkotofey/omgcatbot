@@ -72,6 +72,10 @@ return [
 	 */
 	'support_link' => '@example_group',
 	/**
+	 * Max open campaigns count. After reaching this point - campaigns for new users will not start
+	 */
+	'max_campaigns_count' => '32000',
+	/**
 	 * Array of commands aliases.
 	 * If bot will find any of command alias in user input - associated command will executed
 	 */
