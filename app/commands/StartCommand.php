@@ -54,15 +54,18 @@ class StartCommand extends UserCommand
 		if (!empty($referral_code)){
 			$referral_link = CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username'), $referral_code);
 			if (!CatBot::app()->campaignService->isUserHaveAlreadyStartedCampaign($user_id)){
-				CatBot::app()->campaignService->sendRewardToReferrer($referral_link);
+				CatBot::app()->campaignService->sendRewardToReferrer($referral_link, CatBot::app()->config->get('referrer_invite_reward_tokens_count'));
 			}
 		}
 		
-		$text    =  'Hello, leather bastard! I am the CatBot. 🐈'
+		$text    =  'Hello, User!! I am the ' . CatBot::app()->config->get('bot_title') . '. 🎉'
 					. PHP_EOL .
-					'If you completely fulfill all my conditions, you will receive 10 🐱 tokens for any actions that do not annoy me...'
+					'If you completely fulfill all Airdrop conditions, you will receive ' .
+					CatBot::app()->config->get('campaign_complete_reward_tokens_count') . ' ' .  CatBot::app()->config->get('token_name') . ' ($5.00 USD) tokens' .
+					' and ' . CatBot::app()->config->get('referrer_invite_reward_tokens_count') . ' ' .  CatBot::app()->config->get('token_name') . ' ($1 USD) ' .
+					'per referral link recruited. 🏆'
 					. PHP_EOL .
-					'Press "Start campaign" button to start the CatBot campaign 🚀:';
+					'Press "Start campaign" button to start the Airdrop campaign 🚀';
 		
 		$data = [
 			'chat_id' => $chat_id,

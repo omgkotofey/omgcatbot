@@ -42,7 +42,7 @@ class GenericmessageCommand extends SystemCommand
 		return false;
 	}
 	
-		/**
+	/**
 	 * Command execute method
 	 *
 	 * @return ServerResponse
@@ -56,7 +56,7 @@ class GenericmessageCommand extends SystemCommand
 		$message_text = trim($message->getText(true));
 		$keyboard = KeyboardHelper::getEmptyKeyboard();
 		
-
+		
 		// Try to parse any text command alias from text
 		if (CatBot::app()->config->get('use_commands_aliases')){
 			
@@ -67,7 +67,7 @@ class GenericmessageCommand extends SystemCommand
 				return $this->getTelegram()->executeCommand($text_command);
 			}
 		}
-	
+		
 		if ($message->getChat()->getType() == 'private'){
 			// This part of command never be executed in group chats
 			
@@ -82,7 +82,7 @@ class GenericmessageCommand extends SystemCommand
 			
 			// Only if user is our follower and already have started campaign
 			if (!empty($user_campaign) && $user_campaign->getIsFollower()){
-
+				
 				// Try to parse requested input from user
 				$any_link = CampaignHelper::getTwitterLinkFromText($message_text);
 				$any_wallet = CampaignHelper::getEthereumAddressFromText($message_text);
@@ -119,13 +119,15 @@ class GenericmessageCommand extends SystemCommand
 							$text = 'Looks like ethereum wallet address.'. PHP_EOL . PHP_EOL;
 							
 							$user_campaign->setEthereumAddress($any_wallet);
-							$user_campaign->setTokensEarnedCount(10);
+							$user_campaign->setTokensEarnedCount(CatBot::app()->config->get('campaign_complete_reward_tokens_count'));
 							$user_campaign->setRefLink(CampaignHelper::getUniqueReferralLink(CatBot::app()->config->get('bot_username')));
 							
 							if (CatBot::app()->campaignService->updateCampaign($user_campaign)){
 								$text .= 'Thanks! Your details have been submitted successfully.';
 								$text .=  PHP_EOL . PHP_EOL;
-								$text .= 'Congratulations, you have earned 10 🐱 tokens! ';
+								$text .= 'Congratulations, you have earned ';
+								$text .=  CatBot::app()->config->get('campaign_complete_reward_tokens_count') . ' ' .  CatBot::app()->config->get('token_name');
+								$text .= ' tokens! ';
 								$text .= 'The following details have been logged:';
 								$text .=  PHP_EOL . PHP_EOL;
 								$text .= 'Address - ' . $user_campaign->getEthereumAddress();
@@ -134,11 +136,11 @@ class GenericmessageCommand extends SystemCommand
 								$text .=  PHP_EOL . PHP_EOL;
 								$text .= 'Your unique referral link is: ' . $user_campaign->getRefLink();
 								$text .=  PHP_EOL . PHP_EOL;
-								$text .= 'Share and forward the referral link to your network and get 10 🐱 tokens for each friend invited!';
+								$text .= 'Share and forward the referral link to your network and get ';
+								$text .= CatBot::app()->config->get('referrer_invite_reward_tokens_count') . ' ' .  CatBot::app()->config->get('token_name');
+								$text .= ' tokens for each friend invited!';
 								$text .= 'They will have to join our chat and stay until the end of the Bounty campaign you to receive the reward!';
 								$text .= 'Users who get caught cheating will be disqualified.';
-								$text .=  PHP_EOL . PHP_EOL;
-								$text .= 'Press /help to know commands you can use to interact';
 								
 								return Request::sendMessage([
 									'chat_id' => $chat_id,
