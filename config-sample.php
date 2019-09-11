@@ -41,7 +41,15 @@ return [
 	 * The only thing you need - to change \app\commands\GenericmessageCommand class
 	 * This campaign stuff and GenericmessageCommand class is only example ones. Your campaign can be different.
 	 *
-	 *
+	 * Token name
+	 */
+	'token_name' => 'CATBOT',
+	/**
+	 * Tokens count, which user will get after complete campaign goals
+	 */
+	'campaign_complete_reward_tokens_count' => 10,
+	'referrer_invite_reward_tokens_count' => 5,
+	/**
 	 * Telegram group which user need to join after campaign start
 	 */
 	'telegram_group_to_follow_id' => '-111111111',
