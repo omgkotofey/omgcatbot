@@ -29,7 +29,7 @@ class CampaignHelper
 	 */
 	public static function getTwitterLinkFromText(string $text)
 	{
-		return self::getFragmentFromTextByRegexp($text, '/^https?:\/\/twitter\.com\S+/');
+		return self::getFragmentFromTextByRegexp($text, '/^https?:\/\/(mobile\.)?twitter\.com\S+/');
 	}
 	
 	/**
@@ -59,5 +59,5 @@ class CampaignHelper
 		}
 		return "http://t.me/$bot_name?start=$unique_id";
 	}
-
+	
 }
