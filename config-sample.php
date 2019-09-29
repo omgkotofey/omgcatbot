@@ -86,5 +86,18 @@ return [
 		'/referrallink' => 'Referral link',
 		'/socialmedia' => 'Social media',
 		'/support' => 'Support'
+	],
+	/**
+	 * Bot's reaction on keywords
+	 */
+	'keywords_reaction' => true,
+	/**
+	 * Array of keywords
+	 * Keys of array items is keywords by itself, values of array items is bot's replies messages text
+	 */
+	'keywords_vocabulary' => [
+		'distribution' => 'Distribution word reply',
+		'price'  => 'Price word reply message',
+		'exchange'  => 'Exchange word reply message'
 	]
 ];

@@ -71,8 +71,6 @@ class GenericmessageCommand extends SystemCommand
 		if ($message->getChat()->getType() == 'private'){
 			// This part of command never be executed in group chats
 			
-			
-			
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
 			
 			Request::sendChatAction([
@@ -182,9 +180,35 @@ class GenericmessageCommand extends SystemCommand
 			];
 			
 			return Request::sendMessage($data);
-			
 		} else {
-			return Request::emptyResponse();
+			// This part of command will executed only for  bot's "group to follow" from config
+			if ($chat_id == CatBot::app()->config->get('telegram_group_to_follow_id') && !in_array($user_id, CatBot::app()->config->get('bot_admins'))){
+				
+				$stop_words_vocabulary = CatBot::app()->config->get('keywords_vocabulary');
+				
+				if (CatBot::app()->config->get('keywords_reaction') && count($stop_words_vocabulary)){
+					$matches = [];
+					
+					foreach (array_keys($stop_words_vocabulary) as $stop_word){
+						if (strpos($message_text, $stop_word) !== false) {
+							$matches[$stop_word] = true;
+						}
+					}
+					
+					if ($matches){
+						foreach (array_keys($matches) as $stop_word){
+							Request::sendMessage([
+								'chat_id' => $chat_id,
+								'text'    => $stop_words_vocabulary[$stop_word],
+								'reply_to_message_id' => $message->getMessageId()
+							]);
+						}
+					}
+				}
+				
+			} else{
+				return Request::emptyResponse();
+			}
 		}
 	}
 }
