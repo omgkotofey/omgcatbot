@@ -1,2 +1,2 @@
 # OMGCatBot
-Simple Telegram bot application for various free crypto-tokens earning campaigns
+Simple Telegram bot application for crypto currency AirDrop campaigns
