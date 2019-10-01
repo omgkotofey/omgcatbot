@@ -89,6 +89,7 @@ return [
 	],
 	/**
 	 * Bot's reaction on keywords
+	 * Bot will reply on messages containing any of keywords from all users in telegram_group_to_follow_id group except admins
 	 */
 	'keywords_reaction' => true,
 	/**
@@ -99,5 +100,26 @@ return [
 		'distribution' => 'Distribution word reply',
 		'price'  => 'Price word reply message',
 		'exchange'  => 'Exchange word reply message'
+	],
+	/**
+	 * Bot's reaction on spam entities
+	 */
+	'spam_reaction' => true,
+	/**
+	 * Array of spam entities types
+	 * Bot will delete messages containing any of spam types from all users in telegram_group_to_follow_id group except admins
+	 * Options:
+	 * 'links' - all messages containing links will be deleted
+	 * 'user_nicknames' - all messages containing called (with @ symbol) nicknames
+	 * 'stop_words' - all messages containing any word in specified array will be deleted
+	 */
+	'spam_types' => [
+		'links' => true,
+		'user_nicknames' => true,
+		'stop_words'  => [
+			'bounty',
+			'crypto',
+			'group'
+		],
 	]
 ];
