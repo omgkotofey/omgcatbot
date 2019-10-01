@@ -8,7 +8,7 @@ class ErrorMessagesHelper
 {
 	/**
 	 * Return common error message text.
-	 * Eg bot can't find any command user wants to execute, or do not wait for any data input.
+	 * E.g. bot can't find any command user wants to execute, or do not wait for any data input.
 	 *
 	 * @return string
 	 */
@@ -24,7 +24,7 @@ class ErrorMessagesHelper
 	
 	/**
 	 * Return common error message text.
-	 * Eg bot can't find any command user wants to execute, or do not wait for any data input.
+	 * E.g. bot can't find any command user wants to execute, or do not wait for any data input.
 	 *
 	 * @return string
 	 */
@@ -40,7 +40,7 @@ class ErrorMessagesHelper
 	
 	/**
 	 * Return wrong twitter link error message text.
-	 * Eg bot can't parse any twitter link on retweet waiting stage of campaign.
+	 * E.g. bot can't parse any twitter link on retweet waiting stage of campaign.
 	 *
 	 * @return string
 	 */
@@ -53,7 +53,7 @@ class ErrorMessagesHelper
 	
 	/**
 	 * Return wrong twitter Ethereum wallet error message text.
-	 * Eg bot can't parse any Ethereum wallet on Ethereum wallet waiting stage of campaign.
+	 * E.g. bot can't parse any Ethereum wallet on Ethereum wallet waiting stage of campaign.
 	 *
 	 * @return string
 	 */
