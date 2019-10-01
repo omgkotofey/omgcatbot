@@ -6,6 +6,7 @@ use app\core\CatBot;
 use app\domain\CampaignHelper;
 use app\utils\ErrorMessagesHelper;
 use app\utils\KeyboardHelper;
+use app\utils\TextHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
@@ -51,6 +52,7 @@ class GenericmessageCommand extends SystemCommand
 	public function execute()
 	{
 		$message = $this->getMessage();
+		$message_id = $message->getMessageId();
 		$chat_id = $message->getChat()->getId();
 		$user_id = $message->getFrom()->getId();
 		$message_text = trim($message->getText(true));
@@ -184,16 +186,44 @@ class GenericmessageCommand extends SystemCommand
 			// This part of command will executed only for  bot's "group to follow" from config
 			if ($chat_id == CatBot::app()->config->get('telegram_group_to_follow_id') && !in_array($user_id, CatBot::app()->config->get('bot_admins'))){
 				
+				// spam reaction
+				$spam_reaction_config = CatBot::app()->config->get('spam_types');
+				
+				if (CatBot::app()->config->get('spam_reaction') && count($spam_reaction_config)) {
+					
+					$spam_detection = [];
+					
+					foreach ($spam_reaction_config as $option_name => $option_value) {
+						switch ($option_name) {
+							case 'links':
+								if (TextHelper::isAnyUrlFoundInText($message_text)) {
+									$spam_detection[$option_name] = true;
+								}
+								break;
+							case 'user_nicknames':
+								if (TextHelper::isAnyNicknameInText($message_text)) {
+									$spam_detection[$option_name] = true;
+								}
+								break;
+							case 'stop_words':
+								if (TextHelper::findMatchesInText($option_value, $message_text)) {
+									$spam_detection[$option_name] = true;
+								}
+								break;
+						}
+					}
+					
+					if (count(array_filter($spam_detection))){
+						return Request::deleteMessage(compact('message_id', 'chat_id'));
+					}
+				}
+				
+				// keywords replies section
 				$stop_words_vocabulary = CatBot::app()->config->get('keywords_vocabulary');
 				
 				if (CatBot::app()->config->get('keywords_reaction') && count($stop_words_vocabulary)){
-					$matches = [];
 					
-					foreach (array_keys($stop_words_vocabulary) as $stop_word){
-						if (strpos($message_text, $stop_word) !== false) {
-							$matches[$stop_word] = true;
-						}
-					}
+					$matches = TextHelper::findMatchesInText(array_keys($stop_words_vocabulary), $message_text);
 					
 					if ($matches){
 						foreach (array_keys($matches) as $stop_word){
