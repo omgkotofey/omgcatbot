@@ -4,6 +4,7 @@ namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use app\core\CatBot;
 use app\domain\CampaignHelper;
+use app\utils\CommunityHelper;
 use app\utils\ErrorMessagesHelper;
 use app\utils\KeyboardHelper;
 use app\utils\TextHelper;
@@ -184,8 +185,10 @@ class GenericmessageCommand extends SystemCommand
 			return Request::sendMessage($data);
 		} else {
 			// This part of command will executed only for  bot's "group to follow" from config
-			if ($chat_id == CatBot::app()->config->get('telegram_group_to_follow_id') && !in_array($user_id, CatBot::app()->config->get('bot_admins'))){
-				
+			if ($chat_id == CatBot::app()->config->get('telegram_group_to_follow_id')
+				&& !in_array($user_id, CatBot::app()->config->get('bot_admins'))
+				&& !CommunityHelper::checkUserIsAdminOfChat($user_id, $chat_id)
+			){
 				// spam reaction
 				$spam_reaction_config = CatBot::app()->config->get('spam_types');
 				
@@ -202,6 +205,11 @@ class GenericmessageCommand extends SystemCommand
 								break;
 							case 'user_nicknames':
 								if (TextHelper::isAnyNicknameInText($message_text)) {
+									$spam_detection[$option_name] = true;
+								}
+								break;
+							case 'forwards':
+								if ($message->getForwardFrom()) {
 									$spam_detection[$option_name] = true;
 								}
 								break;
