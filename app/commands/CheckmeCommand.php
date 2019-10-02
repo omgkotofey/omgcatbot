@@ -5,6 +5,7 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 
 use app\core\CatBot;
+use app\utils\CommunityHelper;
 use app\utils\KeyboardHelper;
 use Longman\TelegramBot\ChatAction;
 use Longman\TelegramBot\Commands\UserCommand;
@@ -32,20 +33,6 @@ class CheckmeCommand extends UserCommand
 	 */
 	protected $private_only = true;
 	
-	private function checkUserIsMemberOfChat($user_id, $chat_id)
-	{
-		$isMemberRequest = Request::getChatMember(['chat_id' => $chat_id, 'user_id' => $user_id]);
-		if ($isMemberRequest->isOk()) {
-			/**
-			 * @var $isMemberResult ChatMember
-			 */
-			$isMemberResult = $isMemberRequest->getResult();
-			$memberStatus = $isMemberResult->getStatus();
-			return in_array($memberStatus, ['member', 'administrator', 'creator']);
-		}
-		return false;
-	}
-	
 	/**
 	 * Command execute method
 	 *
@@ -71,11 +58,11 @@ class CheckmeCommand extends UserCommand
 			$user_campaign = CatBot::app()->campaignService->getActiveUserCampaign($user_id);
 			
 			$must_joined = [
-				'group' => $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_group_to_follow_id'))
+				'group' => CommunityHelper::checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_group_to_follow_id'))
 			];
 			
 			if (CatBot::app()->config->get('telegram_channel_to_follow_id')) {
-				$must_joined['channel'] = $this->checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_channel_to_follow_id'));
+				$must_joined['channel'] = CommunityHelper::checkUserIsMemberOfChat($user_id, CatBot::app()->config->get('telegram_channel_to_follow_id'));
 			}
 			
 			if (!in_array(false, $must_joined)) {
