@@ -112,10 +112,12 @@ return [
 	 * 'links' - all messages containing links will be deleted
 	 * 'user_nicknames' - all messages containing called (with @ symbol) nicknames
 	 * 'stop_words' - all messages containing any word in specified array will be deleted
+	 * 'forwards' - all forwards from another chats
 	 */
 	'spam_types' => [
 		'links' => true,
 		'user_nicknames' => true,
+		'forwards' => true,
 		'stop_words'  => [
 			'bounty',
 			'crypto',
