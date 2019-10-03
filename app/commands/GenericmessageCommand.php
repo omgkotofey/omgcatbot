@@ -208,6 +208,16 @@ class GenericmessageCommand extends SystemCommand
 									$spam_detection[$option_name] = true;
 								}
 								break;
+							case 'photo':
+								if ($message->getPhoto()) {
+									$spam_detection[$option_name] = true;
+								}
+								break;
+							case 'stickers':
+								if ($message->getSticker()) {
+									$spam_detection[$option_name] = true;
+								}
+								break;
 							case 'forwards':
 								if ($message->getForwardFrom()) {
 									$spam_detection[$option_name] = true;
