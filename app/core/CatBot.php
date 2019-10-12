@@ -65,7 +65,11 @@ class CatBot
 	public function run()
 	{
 		$this->telegramApiClient->enableLimiter();
-		$this->telegramApiClient->handle();
+		try {
+			$this->telegramApiClient->handle();
+		} catch (TelegramException $e) {
+			header("HTTP/1.0 404 Not Found");
+		}
 	}
 	
 	public function setWebHook()
